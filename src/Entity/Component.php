@@ -131,4 +131,9 @@ abstract class Component
 
         return $this;
     }
+
+    /**
+     * Visitor pattern
+     */
+    abstract public function accept(Visitor $visitor) : void;
 }

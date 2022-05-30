@@ -37,4 +37,9 @@ class Capacitor extends Component
 
         return $this;
     }
+
+    public function accept(Visitor $visitor): void
+    {
+        $visitor->visitCapacitor($this);
+    }
 }

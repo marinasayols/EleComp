@@ -37,4 +37,9 @@ class Resistor extends Component
 
         return $this;
     }
+
+    public function accept(Visitor $visitor): void
+    {
+        $visitor->visitResistor($this);
+    }
 }

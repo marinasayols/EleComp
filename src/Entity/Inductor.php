@@ -38,4 +38,9 @@ class Inductor extends Component
 
         return $this;
     }
+
+    public function accept(Visitor $visitor): void
+    {
+        $visitor->visitInductor($this);
+    }
 }
