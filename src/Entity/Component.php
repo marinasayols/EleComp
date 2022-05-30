@@ -8,7 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
-class Component
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "resistor" => Resistor::class,
+    "capacitor" => Capacitor::class,
+    "inductor" => Inductor::class
+])]
+abstract class Component
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

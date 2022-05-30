@@ -6,23 +6,13 @@ use App\Repository\ResistorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResistorRepository::class)]
-class Resistor
+class Resistor extends Component
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     private $power;
 
     #[ORM\Column(type: 'string', length: 10)]
     private $package;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPower(): ?string
     {

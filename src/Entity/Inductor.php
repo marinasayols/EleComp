@@ -6,23 +6,14 @@ use App\Repository\InductorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InductorRepository::class)]
-class Inductor
+class Inductor extends Component
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     private $max_current;
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     private $DC_resistance;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getMaxCurrent(): ?string
     {
