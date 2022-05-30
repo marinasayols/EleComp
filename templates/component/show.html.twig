@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Component{% endblock %}
+
+{% block body %}
+    <h1>Component</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ component.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ component.value }}</td>
+            </tr>
+            <tr>
+                <th>Tolerance</th>
+                <td>{{ component.tolerance }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ component.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_component_index') }}">back to list</a>
+
+    <a href="{{ path('app_component_edit', {'id': component.id}) }}">edit</a>
+
+    {{ include('component/_delete_form.html.twig') }}
+{% endblock %}
