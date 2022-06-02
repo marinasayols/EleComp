@@ -19,36 +19,7 @@ class ComponentType extends AbstractType
         $builder
             ->add('value')
             ->add('tolerance')
-            ->add('price')
-            ->add('manufacturers', EntityType::class, [
-                'expanded' => true,
-                'multiple' => true,
-                'class' => Manufacturer::class,
-                'choice_label' => 'name',
-            ])
-            ->add('provider', CollectionType::class, [
-
-            ])
-            /*->add('providers', ProviderFormType::class)->add('providers', EntityType::class, [
-                'expanded' => true,
-                'multiple' => true,
-                'class' => Provider::class,
-                'choice_label' => 'name',
-            ])*/
-        ;
-
-        /*$builder->addEventListener(FormEvents::PRE_SUBMIT,
-            function (FormEvent $event) {
-                $data = $event->getData();
-                $form = $event->getForm();
-
-                if (!empty($data['providersNew']['name'])) {
-                    $form->add('providersNew', ProviderType::class, [
-                        'mapped' => true,
-                        'property_path' => 'providers'
-                    ]);
-                }
-            });*/
+            ->add('price');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

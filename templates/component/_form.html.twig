@@ -2,34 +2,3 @@
     {{ form_widget(form) }}
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-
-<script>
-    const addTagLink = document.createElement('a')
-    addTagLink.classList.add('add_provider_list')
-    addTagLink.href = '#'
-    addTagLink.innerText = 'Add provider'
-    addTagLink.dataset.collectionHolderClass = 'providers'
-
-    const collectionHolder = document.querySelector('ul.providers')
-    collectionHolder.appendChild(addTagLink)
-
-    const addFormToCollection = (e) => {
-        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-
-        const item = document.createElement('li');
-
-        item.innerHTML = collectionHolder
-            .dataset
-            .prototype
-            .replace(
-                /__name__/g,
-                collectionHolder.dataset.index
-            );
-
-        collectionHolder.appendChild(item);
-
-        collectionHolder.dataset.index++;
-    }
-
-    addTagLink.addEventListener("click", addFormToCollection)
-</script>
