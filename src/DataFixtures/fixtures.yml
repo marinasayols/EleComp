@@ -1,0 +1,10 @@
+App\Entity\Provider:
+  provider_{1..10}:
+    name: 'provider<current()>'
+    phone: <numberBetween(100000000, 999999999)>
+    email: 'p<current()>\@p<current()>.com'
+
+App\Entity\Manufacturer:
+  manufacturer_{1..10}:
+    name: 'manufacturer<current()>'
+    website: 'manufacturer<current()>.com'
