@@ -2,25 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Component;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Resistor;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ComponentType extends AbstractType
+class ResistorType extends ComponentType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
         $builder
-            ->add('value')
-            ->add('tolerance')
-            ->add('price');
+            ->add('power')
+            ->add('package');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Component::class,
+            'data_class' => Resistor::class,
         ]);
     }
 }

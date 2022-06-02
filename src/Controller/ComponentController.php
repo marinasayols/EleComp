@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Capacitor;
 use App\Entity\Component;
+use App\Entity\Resistor;
 use App\Form\ComponentType;
 use App\Repository\ComponentRepository;
+use App\Visitor\CreateComponentVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +24,23 @@ class ComponentController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_component_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ComponentRepository $componentRepository): Response
+    #[Route('/new/capacitor', name: 'app_component_new_capacitor', methods: ['GET', 'POST'])]
+    public function newCapacitor(Request $request, ComponentRepository $componentRepository): Response
     {
-        $component = new Component();
-        $form = $this->createForm(ComponentType::class, $component);
+        $component = new Capacitor();
+        return $this->create($request, $component, $componentRepository);
+    }
+
+    #[Route('/new/resistor', name: 'app_component_new_resistor', methods: ['GET', 'POST'])]
+    public function newResistor(Request $request, ComponentRepository $componentRepository): Response
+    {
+        $component = new Resistor();
+        return $this->create($request, $component, $componentRepository);
+    }
+
+    public function create(Request $request, Component $component, ComponentRepository $componentRepository): Response
+    {
+        $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +84,7 @@ class ComponentController extends AbstractController
     #[Route('/{id}', name: 'app_component_delete', methods: ['POST'])]
     public function delete(Request $request, Component $component, ComponentRepository $componentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$component->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $component->getId(), $request->request->get('_token'))) {
             $componentRepository->remove($component, true);
         }
 

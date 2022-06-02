@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ComponentRepository;
+use App\Visitor\Visitor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -133,7 +134,16 @@ abstract class Component
     }
 
     /**
-     * Visitor pattern
+     *Visitor pattern
      */
-    abstract public function accept(Visitor $visitor) : void;
+    abstract public function accept(Visitor $visitor);
+
+    /**
+     * Prototype pattern
+     */
+    public function __clone(): void
+    {
+        $this->manufacturers = clone $this->manufacturers;
+        $this->providers = clone $this->providers;
+    }
 }

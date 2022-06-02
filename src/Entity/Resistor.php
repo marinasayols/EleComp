@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ResistorRepository;
+use App\Visitor\Visitor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResistorRepository::class)]
@@ -38,8 +39,8 @@ class Resistor extends Component
         return $this;
     }
 
-    public function accept(Visitor $visitor): void
+    public function accept(Visitor $visitor)
     {
-        $visitor->visitResistor($this);
+        return $visitor->visitResistor($this);
     }
 }

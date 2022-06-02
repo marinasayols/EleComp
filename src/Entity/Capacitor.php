@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CapacitorRepository;
+use App\Visitor\Visitor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CapacitorRepository::class)]
@@ -38,8 +39,8 @@ class Capacitor extends Component
         return $this;
     }
 
-    public function accept(Visitor $visitor): void
+    public function accept(Visitor $visitor)
     {
-        $visitor->visitCapacitor($this);
+        return $visitor->visitCapacitor($this);
     }
 }

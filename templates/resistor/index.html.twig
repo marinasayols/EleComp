@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resistor index{% endblock %}
+
+{% block body %}
+    <h1>Resistor index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+                <th>Tolerance</th>
+                <th>Price</th>
+                <th>Power</th>
+                <th>Package</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for resistor in resistors %}
+            <tr>
+                <td>{{ resistor.id }}</td>
+                <td>{{ resistor.value }}</td>
+                <td>{{ resistor.tolerance }}</td>
+                <td>{{ resistor.price }}</td>
+                <td>{{ resistor.power }}</td>
+                <td>{{ resistor.package }}</td>
+                <td>
+                    <a href="{{ path('app_resistor_show', {'id': resistor.id}) }}">show</a>
+                    <a href="{{ path('app_resistor_edit', {'id': resistor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_resistor_new') }}">Create new</a>
+{% endblock %}

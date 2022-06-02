@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resistor{% endblock %}
+
+{% block body %}
+    <h1>Resistor</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ resistor.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ resistor.value }}</td>
+            </tr>
+            <tr>
+                <th>Tolerance</th>
+                <td>{{ resistor.tolerance }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ resistor.price }}</td>
+            </tr>
+            <tr>
+                <th>Power</th>
+                <td>{{ resistor.power }}</td>
+            </tr>
+            <tr>
+                <th>Package</th>
+                <td>{{ resistor.package }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_resistor_index') }}">back to list</a>
+
+    <a href="{{ path('app_resistor_edit', {'id': resistor.id}) }}">edit</a>
+
+    {{ include('resistor/_delete_form.html.twig') }}
+{% endblock %}

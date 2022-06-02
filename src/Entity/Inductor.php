@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\InductorRepository;
+use App\Visitor\Visitor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InductorRepository::class)]
