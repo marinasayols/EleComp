@@ -1,10 +1,10 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-<h3>Items</h3>
+{# {<h3>Items</h3>
 <ul class="projectItems">
     {% for projectItem in form.projectItems %}
-    <li>{{ form_row(projectItem.componentId) }}</li>
-    {% end for %}
-</ul>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <li>{{ form_row(projectItem) }}</li>
+    {% endfor %}
+</ul> #}
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

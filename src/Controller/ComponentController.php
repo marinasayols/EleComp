@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Capacitor;
 use App\Entity\Component;
 use App\Entity\Resistor;
-use App\Form\ComponentType;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateComponentVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,13 +30,6 @@ class ComponentController extends AbstractController
         return $this->create($request, $component, $componentRepository);
     }
 
-    #[Route('/new/resistor', name: 'app_component_new_resistor', methods: ['GET', 'POST'])]
-    public function newResistor(Request $request, ComponentRepository $componentRepository): Response
-    {
-        $component = new Resistor();
-        return $this->create($request, $component, $componentRepository);
-    }
-
     public function create(Request $request, Component $component, ComponentRepository $componentRepository): Response
     {
         $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
@@ -55,6 +47,13 @@ class ComponentController extends AbstractController
         ]);
     }
 
+    #[Route('/new/resistor', name: 'app_component_new_resistor', methods: ['GET', 'POST'])]
+    public function newResistor(Request $request, ComponentRepository $componentRepository): Response
+    {
+        $component = new Resistor();
+        return $this->create($request, $component, $componentRepository);
+    }
+
     #[Route('/{id}', name: 'app_component_show', methods: ['GET'])]
     public function show(Component $component): Response
     {
@@ -66,7 +65,7 @@ class ComponentController extends AbstractController
     #[Route('/{id}/edit', name: 'app_component_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Component $component, ComponentRepository $componentRepository): Response
     {
-        $form = $this->createForm(ComponentType::class, $component);
+        $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

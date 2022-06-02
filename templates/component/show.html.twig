@@ -7,24 +7,44 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ component.id }}</td>
-            </tr>
-            <tr>
-                <th>Value</th>
-                <td>{{ component.value }}</td>
-            </tr>
-            <tr>
-                <th>Tolerance</th>
-                <td>{{ component.tolerance }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ component.price }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ component.id }}</td>
+        </tr>
+        <tr>
+            <th>Value</th>
+            <td>{{ component.value }}</td>
+        </tr>
+        <tr>
+            <th>Tolerance</th>
+            <td>{{ component.tolerance }}</td>
+            <td>%</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ component.price }}</td>
+            <td>€</td>
+        </tr>
         </tbody>
     </table>
+
+    <h4>Manufacturers</h4>
+    <ul class="manufacturers">
+        {% for manufacturer in component.manufacturers %}
+            <li>{{ manufacturer.name }}</li>
+        {% else %}
+            <p>No manufacturers</p>
+        {% endfor %}
+    </ul>
+
+    <h4>Providers</h4>
+    <ul class="providers">
+        {% for provider in component.providers %}
+            <li>{{ provider.name }}</li>
+        {% else %}
+            <p>No providers</p>
+        {% endfor %}
+    </ul>
 
     <a href="{{ path('app_component_index') }}">back to list</a>
 

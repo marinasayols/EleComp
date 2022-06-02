@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Project;
-use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,12 +13,11 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('projectItems', CollectionType::class, [
+            ->add('description')/*->add('projectItems', CollectionType::class, [
                 'entry_type' => ProjectItemType::class,
                 'entry_options' => ['label' => false],
-                'allow_add' => true,
-            ])
+                //*'allow_add' => true,
+            ])*/
         ;
     }
 

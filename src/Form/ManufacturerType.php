@@ -2,26 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\ProjectItem;
+use App\Entity\Manufacturer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProjectItemType extends AbstractType
+class ManufacturerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('componentId', ComponentIdType::class)
-            ->add('qty')
+            ->add('name')
+            ->add('website')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ProjectItem::class,
+            'data_class' => Manufacturer::class,
         ]);
     }
 }

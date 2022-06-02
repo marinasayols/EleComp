@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ComponentRepository;
 use App\Visitor\Visitor;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
@@ -32,10 +31,16 @@ abstract class Component
     #[ORM\Column(type: 'decimal', precision: 10, scale: 3, nullable: true)]
     private $price;
 
-    #[ORM\ManyToMany(targetEntity: Manufacturer::class, inversedBy: 'components')]
+    #[ORM\ManyToMany(
+        targetEntity: Manufacturer::class,
+        inversedBy: 'components')
+    ]
     private $manufacturers;
 
-    #[ORM\ManyToMany(targetEntity: Provider::class, inversedBy: 'components')]
+    #[ORM\ManyToMany(
+        targetEntity: Provider::class,
+        inversedBy: 'components')
+    ]
     private $providers;
 
     public function __construct()
@@ -86,51 +91,19 @@ abstract class Component
     }
 
     /**
-     * @return Collection<int, Manufacturer>
+     * @return ArrayCollection|Manufacturer[]
      */
-    public function getManufacturers(): Collection
+    public function getManufacturers()
     {
         return $this->manufacturers;
     }
 
-    public function addManufacturer(Manufacturer $manufacturer): self
-    {
-        if (!$this->manufacturers->contains($manufacturer)) {
-            $this->manufacturers[] = $manufacturer;
-        }
-
-        return $this;
-    }
-
-    public function removeManufacturer(Manufacturer $manufacturer): self
-    {
-        $this->manufacturers->removeElement($manufacturer);
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Provider>
+     * @return ArrayCollection|Provider[]
      */
-    public function getProviders(): Collection
+    public function getProviders()
     {
         return $this->providers;
-    }
-
-    public function addProvider(Provider $provider): self
-    {
-        if (!$this->providers->contains($provider)) {
-            $this->providers[] = $provider;
-        }
-
-        return $this;
-    }
-
-    public function removeProvider(Provider $provider): self
-    {
-        $this->providers->removeElement($provider);
-
-        return $this;
     }
 
     /**
