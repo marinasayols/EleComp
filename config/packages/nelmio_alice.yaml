@@ -1,0 +1,6 @@
+when@dev: &dev
+    nelmio_alice:
+        functions_blacklist:
+            - 'current'
+
+when@test: *dev

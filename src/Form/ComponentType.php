@@ -19,7 +19,11 @@ class ComponentType extends AbstractType
         $builder
             ->add('value')
             ->add('tolerance')
-            ->add('price');
+            ->add('price')
+            ->add('manufacturers', CollectionType::class, [
+                'entry_type' => ManufacturerType::class
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

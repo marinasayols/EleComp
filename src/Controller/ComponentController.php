@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Capacitor;
 use App\Entity\Component;
+use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateComponentVisitor;
@@ -23,15 +24,16 @@ class ComponentController extends AbstractController
         ]);
     }
 
-    #[Route('/new/capacitor', name: 'app_component_new_capacitor', methods: ['GET', 'POST'])]
-    public function newCapacitor(Request $request, ComponentRepository $componentRepository): Response
+    #[Route('/new/{type}', name: 'app_component_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, string $type, ComponentRepository $componentRepository): Response
     {
-        $component = new Capacitor();
-        return $this->create($request, $component, $componentRepository);
-    }
+        $types = [
+            'resistor' => new Resistor(),
+            'capacitor' => new Capacitor(),
+            'inductor' => new Inductor(),
+        ];
+        $component = $types[$type];
 
-    public function create(Request $request, Component $component, ComponentRepository $componentRepository): Response
-    {
         $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
         $form->handleRequest($request);
 
@@ -45,13 +47,6 @@ class ComponentController extends AbstractController
             'component' => $component,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/new/resistor', name: 'app_component_new_resistor', methods: ['GET', 'POST'])]
-    public function newResistor(Request $request, ComponentRepository $componentRepository): Response
-    {
-        $component = new Resistor();
-        return $this->create($request, $component, $componentRepository);
     }
 
     #[Route('/{id}', name: 'app_component_show', methods: ['GET'])]

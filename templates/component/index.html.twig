@@ -36,6 +36,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_component_new_resistor') }}">Create Resistor</a>
-    <a href="{{ path('app_component_new_capacitor') }}">Create Capacitor</a>
+    <a href="{{ path('app_component_new', {'type': 'resistor'}) }}">Create Resistor</a>
+    <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}">Create Capacitor</a>
 {% endblock %}
