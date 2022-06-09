@@ -6,7 +6,11 @@
             <i class="bi bi-trash"></i>
         </a>
         {{ form_errors(projectItemForm) }}
-        {{ form_row(projectItemForm.component) }}
+        {% if projectItemForm.component is defined %}
+            {{ form_row(projectItemForm.component) }}
+        {% else %}
+            <strong>{{ projectItemForm.vars.data.component.name }}</strong>
+        {% endif %}
         {{ form_row(projectItemForm.qty) }}
     </div>
 {% endmacro %}
