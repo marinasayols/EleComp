@@ -1,4 +1,27 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+<h3>General Attributes</h3>
+{{ form_row(form.value) }}
+    {{ form_row(form.tolerance) }}
+    {{ form_row(form.price) }}
+
+<div class="row">
+    <div class="col-sm">
+        <h3>Manufacturers</h3>
+        {% for manufacturer in form.manufacturers %}
+            {{ form_row(manufacturer) }}
+        {% endfor %}
+    </div>
+    <div class="col-sm">
+        <h3>Providers</h3>
+        {% for provider in form.providers %}
+            {{ form_row(provider) }}
+        {% endfor %}
+    </div>
+</div>
+
+
+<h3>Family Attributes</h3>
+{{ form_rest(form) }}
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

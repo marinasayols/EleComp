@@ -4,12 +4,13 @@ namespace App\Form;
 
 use App\Entity\Component;
 use App\Entity\Manufacturer;
+use App\Entity\Provider;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ComponentType extends AbstractType
@@ -19,11 +20,19 @@ class ComponentType extends AbstractType
         $builder
             ->add('value')
             ->add('tolerance')
-            ->add('price')
-            ->add('manufacturers', CollectionType::class, [
-                'entry_type' => ManufacturerType::class
+            ->add('price', MoneyType::class)
+            ->add('manufacturers', EntityType::class, [
+                'class' => Manufacturer::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
             ])
-        ;
+            ->add('providers', EntityType::class, [
+                'class' => Provider::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
