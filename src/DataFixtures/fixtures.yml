@@ -1,10 +1,21 @@
 App\Entity\Provider:
   provider_{1..10}:
-    name: 'provider<current()>'
+    name: provider<current()>
     phone: <numberBetween(100000000, 999999999)>
-    email: 'p<current()>\@p<current()>.com'
+    email: p<current()>\@example.com
 
 App\Entity\Manufacturer:
   manufacturer_{1..10}:
-    name: 'manufacturer<current()>'
-    website: 'manufacturer<current()>.com'
+    name: manufacturer<current()>
+    website: manufacturer<current()>.com
+
+App\Entity\Resistor:
+  R{1..5}:
+    value: <numberBetween(1,100)>n
+    tolerance: <numberBetween(5, 20)>
+    price: <numberBetween(0.01, 10)>
+    manufacturers: '<numberBetween(1,5)>x @manufacturer_*'
+    providers: '<numberBetween(0,5)>x @provider_*'
+    power: <numberBetween(1, 25)>
+    package: 0603
+
