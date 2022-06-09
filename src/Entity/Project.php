@@ -6,6 +6,8 @@ use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Valid;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -16,12 +18,19 @@ class Project
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[NotBlank]
     private $name;
 
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'projectId', targetEntity: ProjectItem::class)]
+    #[ORM\OneToMany(
+        mappedBy: 'project',
+        targetEntity: ProjectItem::class,
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
+    #[Valid]
     private $projectItems;
 
     public function __construct()

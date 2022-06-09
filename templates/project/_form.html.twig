@@ -1,10 +1,56 @@
+{% import _self as formMacros %}
+
+{% macro printProjectItemRow(projectItemForm) %}
+    <div class="col-xs-4 js-project-item">
+        <a href="#" class="js-remove-item">
+            <i class="bi bi-trash"></i>
+        </a>
+        {{ form_errors(projectItemForm) }}
+        {{ form_row(projectItemForm.component) }}
+        {{ form_row(projectItemForm.qty) }}
+    </div>
+{% endmacro %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-{# {<h3>Items</h3>
-<ul class="projectItems">
-    {% for projectItem in form.projectItems %}
-    <li>{{ form_row(projectItem) }}</li>
+    {{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+
+<h3>Items</h3>
+<div class="row js-project-items-wrapper"
+     data-prototype="{{ formMacros.printProjectItemRow(form.projectItems.vars.prototype)|e('html_attr') }}"
+     data-index="{{ form.projectItems|length }}"
+>
+    {% for projectItemForm in form.projectItems %}
+        {{ formMacros.printProjectItemRow(projectItemForm) }}
     {% endfor %}
-</ul> #}
+    <a href="#" class="js-add-item">
+        <i class="bi bi-plus-circle"></i>
+        Add Item
+    </a>
+</div>
+
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+    $(document).ready(function () {
+        let $wrapper = $('.js-project-items-wrapper');
+
+        $wrapper.on('click', '.js-remove-item', function (e) {
+            e.preventDefault();
+            $(this).closest('.js-project-item')
+                .fadeOut()
+                .remove();
+        });
+
+        $wrapper.on('click', '.js-add-item', function (e) {
+            e.preventDefault();
+            let prototype = $wrapper.data('prototype');
+            let index = $wrapper.data('index');
+            let newForm = prototype.replace(/__name__/g, index);
+            $wrapper.data('index', index + 1);
+            $(this).before(newForm);
+        });
+    });
+</script>

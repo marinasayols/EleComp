@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProjectItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: ProjectItemRepository::class)]
 class ProjectItem
@@ -22,6 +23,7 @@ class ProjectItem
     private $component;
 
     #[ORM\Column(type: 'integer')]
+    #[NotBlank]
     private $qty;
 
     public function getId(): ?int
