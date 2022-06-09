@@ -16,17 +16,27 @@
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-inverse">
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ path('app_component_index') }}">Components</a></li>
-            <li><a href="{{ path('app_project_index') }}">Projects</a></li>
+        <span class="navbar-brand mb-0 h1">EleComp</span>
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_component_index') }}">Components</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_project_index') }}">Projects</a>
+            </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
+
+
 {% block body %}{% endblock %}
 </body>
 </html>
