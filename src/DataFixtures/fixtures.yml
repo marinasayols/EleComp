@@ -11,11 +11,22 @@ App\Entity\Manufacturer:
 
 App\Entity\Resistor:
   R{1..5}:
+    name: 'R<($current)>'
     value: <numberBetween(1,100)>n
     tolerance: <numberBetween(5, 20)>
     price: <numberBetween(0.01, 10)>
     manufacturers: '<numberBetween(1,5)>x @manufacturer_*'
     providers: '<numberBetween(0,5)>x @provider_*'
-    power: <numberBetween(1, 25)>
+    power: <numberBetween(1.0, 5.0)>
     package: 0603
 
+App\Entity\Capacitor:
+  C{1..5}:
+    name: 'C<($current)>'
+    value: <numberBetween(2.2,100)>k
+    tolerance: <numberBetween(5, 20)>
+    price: <numberBetween(0.01, 10)>
+    manufacturers: '<numberBetween(1,5)>x @manufacturer_*'
+    providers: '<numberBetween(0,5)>x @provider_*'
+    voltage: <numberBetween(1, 25)>
+    temperature_coefficient: X<numberBetween(1, 5)>R
