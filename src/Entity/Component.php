@@ -23,13 +23,16 @@ abstract class Component
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'string')]
+    private $name;
+
     #[ORM\Column(type: 'string', length: 20)]
     private $value;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer')]
     private $tolerance;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 3, nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 3)]
     private $price;
 
     #[ORM\ManyToMany(
@@ -57,6 +60,16 @@ abstract class Component
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 
     public function getValue(): ?string
@@ -111,20 +124,6 @@ abstract class Component
         return $this->providers;
     }
 
-    /**
-     *Visitor pattern
-     */
-    abstract public function accept(Visitor $visitor);
-
-    /**
-     * Prototype pattern
-     */
-    public function __clone(): void
-    {
-        $this->manufacturers = clone $this->manufacturers;
-        $this->providers = clone $this->providers;
-    }
-
     public function addManufacturer(Manufacturer $manufacturer): self
     {
         if (!$this->manufacturers->contains($manufacturer)) {
@@ -156,4 +155,6 @@ abstract class Component
 
         return $this;
     }
+
+    abstract public function accept(Visitor $visitor);
 }
