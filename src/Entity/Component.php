@@ -34,14 +34,16 @@ abstract class Component
 
     #[ORM\ManyToMany(
         targetEntity: Manufacturer::class,
-        inversedBy: 'components')
+        inversedBy: 'components',
+        cascade: ['persist', 'remove'])
     ]
     #[ORM\JoinColumn(nullable: false)]
     private $manufacturers;
 
     #[ORM\ManyToMany(
         targetEntity: Provider::class,
-        inversedBy: 'components')
+        inversedBy: 'components',
+        cascade: ['persist', 'remove'])
     ]
     #[ORM\JoinColumn(nullable: false)]
     private $providers;
