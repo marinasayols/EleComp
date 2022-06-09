@@ -7,6 +7,7 @@ use App\Visitor\Visitor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
 #[ORM\InheritanceType("JOINED")]
@@ -24,6 +25,7 @@ abstract class Component
     private $id;
 
     #[ORM\Column(type: 'string')]
+    #[Unique]
     private $name;
 
     #[ORM\Column(type: 'string', length: 20)]
