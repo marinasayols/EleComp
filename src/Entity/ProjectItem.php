@@ -15,11 +15,11 @@ class ProjectItem
 
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private $projectId;
+    private $project;
 
     #[ORM\ManyToOne(targetEntity: Component::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $componentId;
+    private $component;
 
     #[ORM\Column(type: 'integer')]
     private $qty;
@@ -29,26 +29,26 @@ class ProjectItem
         return $this->id;
     }
 
-    public function getProjectId(): ?Project
+    public function getProject(): ?Project
     {
-        return $this->projectId;
+        return $this->project;
     }
 
-    public function setProjectId(?Project $projectId): self
+    public function setProject(?Project $project): self
     {
-        $this->projectId = $projectId;
+        $this->project = $project;
 
         return $this;
     }
 
-    public function getComponentId(): ?Component
+    public function getComponent(): ?Component
     {
-        return $this->componentId;
+        return $this->component;
     }
 
-    public function setComponentId(?Component $componentId): self
+    public function setComponent(?Component $component): self
     {
-        $this->componentId = $componentId;
+        $this->component = $component;
 
         return $this;
     }

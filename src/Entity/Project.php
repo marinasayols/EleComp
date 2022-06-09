@@ -70,7 +70,7 @@ class Project
     {
         if (!$this->projectItems->contains($projectItem)) {
             $this->projectItems[] = $projectItem;
-            $projectItem->setProjectId($this);
+            $projectItem->setProject($this);
         }
 
         return $this;
@@ -80,8 +80,8 @@ class Project
     {
         if ($this->projectItems->removeElement($projectItem)) {
             // set the owning side to null (unless already changed)
-            if ($projectItem->getProjectId() === $this) {
-                $projectItem->setProjectId(null);
+            if ($projectItem->getProject() === $this) {
+                $projectItem->setProject(null);
             }
         }
 
