@@ -156,4 +156,14 @@ abstract class Component
     }
 
     abstract public function accept(Visitor $visitor);
+
+    public function compareValue(Component $a, Component $b)
+    {
+        $a_val = $a->value;
+        $b_val = $b->value;
+        if ($a_val == $b_val) {
+            return 0;
+        }
+        return ($a_val < $b_val) ? -1 : 1;
+    }
 }
