@@ -18,7 +18,7 @@ class ProjectItem
     #[ORM\JoinColumn(nullable: false)]
     private $project;
 
-    #[ORM\ManyToOne(targetEntity: Component::class)]
+    #[ORM\ManyToOne(targetEntity: Component::class, inversedBy: 'projectItems')]
     #[ORM\JoinColumn(nullable: false)]
     private $component;
 

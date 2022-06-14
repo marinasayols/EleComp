@@ -12,6 +12,10 @@
         </a>
     </div>
     <div class="col">
-        {{ include('component/_delete_form.html.twig') }}
+        {% if component.projectItems is empty %}
+            {{ include('component/_delete_form.html.twig') }}
+        {% else %}
+            <button class="btn" disabled><i class="bi bi-trash text-muted"></i></button>
+        {% endif %}
     </div>
 </div>

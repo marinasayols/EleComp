@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\ComponentRepository;
 use App\Visitor\Visitor;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Valid;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
 #[ORM\InheritanceType("JOINED")]
@@ -50,10 +52,20 @@ abstract class Component
     #[ORM\JoinColumn(nullable: false)]
     private $providers;
 
+    #[ORM\OneToMany(
+        mappedBy: 'component',
+        targetEntity: ProjectItem::class,
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
+    #[Valid]
+    private $projectItems;
+
     public function __construct()
     {
         $this->manufacturers = new ArrayCollection();
         $this->providers = new ArrayCollection();
+        $this->projectItems = new ArrayCollection();
     }
 
     public function getValue(): ?string
@@ -156,4 +168,34 @@ abstract class Component
     }
 
     abstract public function accept(Visitor $visitor);
+
+    /**
+     * @return Collection<int, ProjectItem>
+     */
+    public function getProjectItems(): Collection
+    {
+        return $this->projectItems;
+    }
+
+    public function addProjectItem(ProjectItem $projectItem): self
+    {
+        if (!$this->projectItems->contains($projectItem)) {
+            $this->projectItems[] = $projectItem;
+            $projectItem->setComponent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectItem(ProjectItem $projectItem): self
+    {
+        if ($this->projectItems->removeElement($projectItem)) {
+            // set the owning side to null (unless already changed)
+            if ($projectItem->getComponent() === $this) {
+                $projectItem->setComponent(null);
+            }
+        }
+
+        return $this;
+    }
 }
