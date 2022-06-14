@@ -176,15 +176,6 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "sylius-labs/polyfill-symfony-event-dispatcher": {
-        "version": "v1.1.0"
-    },
-    "sylius/grid-bundle": {
-        "version": "v1.11.0"
-    },
-    "sylius/registry": {
-        "version": "v1.6.0"
-    },
     "symfony/amqp-messenger": {
         "version": "v5.4.5"
     },
