@@ -56,6 +56,29 @@ abstract class Component
         $this->providers = new ArrayCollection();
     }
 
+    public static function compareValue(Component $a, Component $b): int
+    {
+        $converter = new ValueConverter();
+        $a_val = $converter->getValue($a->getValue());
+        $b_val = $converter->getValue($b->getValue());
+        if ($a_val == $b_val) {
+            return 0;
+        }
+        return ($a_val < $b_val) ? -1 : 1;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,18 +92,6 @@ abstract class Component
     public function setName($name): void
     {
         $this->name = $name;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
-
-        return $this;
     }
 
     public function getTolerance(): ?int
@@ -156,14 +167,4 @@ abstract class Component
     }
 
     abstract public function accept(Visitor $visitor);
-
-    public function compareValue(Component $a, Component $b)
-    {
-        $a_val = $a->value;
-        $b_val = $b->value;
-        if ($a_val == $b_val) {
-            return 0;
-        }
-        return ($a_val < $b_val) ? -1 : 1;
-    }
 }
