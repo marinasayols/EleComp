@@ -26,20 +26,18 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Tolerance</th>
-            <th>Price</th>
+            {% for field in fields %}
+                <th> {{ field }}</th>
+            {% endfor %}
             <th>actions</th>
         </tr>
         </thead>
         <tbody>
         {% for component in components %}
             <tr>
-                <td>{{ component.name }}</td>
-                <td>{{ component.value }}</td>
-                <td>{{ component.tolerance }}</td>
-                <td>{{ component.price }}</td>
+                {% for field in fields %}
+                    <td>{{ attribute(component, field) }}</td>
+                {% endfor %}
                 <td>
                     <a href="{{ path('app_component_show', {'id': component.id}) }}">show</a>
                     <a href="{{ path('app_component_edit', {'id': component.id}) }}">edit</a>
@@ -48,14 +46,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="100%">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-
-    <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}">Create Capacitor</a>
 {% endblock %}
 
 {% block js %}

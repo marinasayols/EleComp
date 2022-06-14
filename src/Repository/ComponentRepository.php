@@ -44,7 +44,7 @@ class ComponentRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         return $this->createQueryBuilder('c')
             ->andWhere('c INSTANCE OF :type')
-            ->setParameter('type', $em->getClassMetadata('App\Entity\\' .  ucfirst($type)))
+            ->setParameter('type', $em->getClassMetadata('App\Entity\\' . ucfirst($type)))
             ->getQuery()
             ->getResult();
     }

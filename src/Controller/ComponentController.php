@@ -7,7 +7,6 @@ use App\Entity\Component;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
-use App\Repository\ResistorRepository;
 use App\Visitor\CreateComponentVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class ComponentController extends AbstractController
 {
     #[Route('/{type}', name: 'app_component_index', methods: ['GET'])]
-    public function index(ComponentRepository $componentRepository, String $type = null): Response
+    public function index(ComponentRepository $componentRepository, string $type = null): Response
     {
         $components = ($type === null) ? [] : $componentRepository->findAllByType($type);
+        $fields = ['name', 'value', 'tolerance', 'price'];
+        $types = [
+            'resistor' => ['power', 'package'],
+            'capacitor' => ['voltage', 'temperatureCoefficient'],
+            'inductor' => ['maxCurrent', 'DCResistance'],
+        ];
+
         return $this->render('component/index.html.twig', [
+            'fields' => array_merge($fields, $types[$type]),
             'components' => $components,
         ]);
     }
