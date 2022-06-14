@@ -64,9 +64,8 @@
 {% block js %}
     <script>
         $(document).ready(function () {
-                let activeTab = document.querySelector("#{{ type }}-tab");
-                activeTab.className += " active";
-            }
-        )
+            let activeTab = document.querySelector("#{{ type }}-tab");
+            activeTab.className += " active";
+        });
     </script>
 {% endblock %}
