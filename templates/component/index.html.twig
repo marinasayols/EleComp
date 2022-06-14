@@ -5,21 +5,27 @@
 {% block body %}
     <h1>Index</h1>
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item nav-link active">
-            <a href="{{ path('app_component_index', {'type': 'resistor'}) }}">Resistors</a>
-            <a href="{{ path('app_component_new', {'type': 'resistor'}) }}"><i
-                        class="bi bi-plus-circle"></i></a>
+    <ul class="nav nav-tabs" id="tabs">
+        <li class="nav-item nav-link" id="resistor-tab">
+            <a href="{{ path('app_component_index', {'type': 'resistor'}) }}"
+               class="text-decoration-none">Resistors</a>
+            <a href="{{ path('app_component_new', {'type': 'resistor'}) }}">
+                <i class="bi bi-plus-circle"></i>
+            </a>
         </li>
-        <li class="nav-item nav-link">
-            <a href="{{ path('app_component_index', {'type': 'capacitor'}) }}">Capacitors</a>
-            <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}"><i
-                        class="bi bi-plus-circle"></i></a>
+        <li class="nav-item nav-link" id="capacitor-tab">
+            <a href="{{ path('app_component_index', {'type': 'capacitor'}) }}"
+               class="text-decoration-none">Capacitors</a>
+            <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}">
+                <i class="bi bi-plus-circle"></i>
+            </a>
         </li>
-        <li class="nav-item nav-link">
-            <a href="{{ path('app_component_index', {'type': 'inductor'}) }}">Inductors</a>
-            <a href="{{ path('app_component_new', {'type': 'inductor'}) }}"><i
-                        class="bi bi-plus-circle"></i></a>
+        <li class="nav-item nav-link" id="inductor-tab">
+            <a href="{{ path('app_component_index', {'type': 'inductor'}) }}"
+               class="text-decoration-none">Inductors</a>
+            <a href="{{ path('app_component_new', {'type': 'inductor'}) }}">
+                <i class="bi bi-plus-circle"></i>
+            </a>
         </li>
     </ul>
 
@@ -27,21 +33,23 @@
         <thead>
         <tr>
             {% for field in fields %}
-                <th> {{ field }}</th>
+                <th class="text-center">
+                    {{ field }}
+                    <i class="bi-sort-up"></i>
+                    <i class="bi-sort-down"></i>
+                </th>
             {% endfor %}
-            <th>actions</th>
+            <th class="text-center">actions</th>
         </tr>
         </thead>
         <tbody>
         {% for component in components %}
             <tr>
                 {% for field in fields %}
-                    <td>{{ attribute(component, field) }}</td>
+                    <td class="text-center align-middle">{{ attribute(component, field) }}</td>
                 {% endfor %}
                 <td>
-                    <a href="{{ path('app_component_show', {'id': component.id}) }}">show</a>
-                    <a href="{{ path('app_component_edit', {'id': component.id}) }}">edit</a>
-                    {{ include('component/_delete_form.html.twig') }}
+                    {{ include('component/_actions.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -55,14 +63,10 @@
 
 {% block js %}
     <script>
-        let triggerTabList = [].slice.call(document.querySelectorAll('#componentTab button'))
-        triggerTabList.forEach(function (triggerEl) {
-            let tabTrigger = new bootstrap.Tab(triggerEl)
-
-            triggerEl.addEventListener('click', function (event) {
-                event.preventDefault()
-                tabTrigger.show()
-            })
-        })
+        $(document).ready(function () {
+                let activeTab = document.querySelector("#{{ type }}-tab");
+                activeTab.className += " active";
+            }
+        )
     </script>
 {% endblock %}

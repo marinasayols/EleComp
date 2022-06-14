@@ -26,10 +26,10 @@ class ComponentController extends AbstractController
             'capacitor' => ['voltage', 'temperatureCoefficient'],
             'inductor' => ['maxCurrent', 'DCResistance'],
         ];
-
         return $this->render('component/index.html.twig', [
-            'fields' => array_merge($fields, $types[$type]),
+            'fields' => ($type === null) ? $fields : array_merge($fields, $types[$type]),
             'components' => $components,
+            'type' => $type,
         ]);
     }
 

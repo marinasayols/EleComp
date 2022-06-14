@@ -1,0 +1,17 @@
+<div class="row  align-items-center">
+    <div class="col d-flex justify-content-center">
+        <a href="{{ path('app_component_show', {'id': component.id}) }}"
+           class="link-dark">
+            <i class="bi bi-eye-fill"></i>
+        </a>
+    </div>
+    <div class="col d-flex justify-content-center">
+        <a href="{{ path('app_component_edit', {'id': component.id}) }}"
+           class="link-dark">
+            <i class="bi bi-pencil-square"></i>
+        </a>
+    </div>
+    <div class="col">
+        {{ include('component/_delete_form.html.twig') }}
+    </div>
+</div>
