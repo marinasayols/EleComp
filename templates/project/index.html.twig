@@ -11,14 +11,14 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>actions</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for project in projects %}
             <tr>
-                <td>{{ project.name }}</td>
-                <td>{{ project.description }}</td>
+                <td class="align-middle">{{ project.name }}</td>
+                <td class="align-middle">{{ project.description }}</td>
                 <td>
                     {{ include('project/_actions.html.twig') }}
                 </td>
