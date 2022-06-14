@@ -39,16 +39,6 @@ class ComponentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByType(string $type)
-    {
-        $em = $this->getEntityManager();
-        return $this->createQueryBuilder('c')
-            ->andWhere('c INSTANCE OF :type')
-            ->setParameter('type', $em->getClassMetadata('App\Entity\\' . ucfirst($type)))
-            ->getQuery()
-            ->getResult();
-    }
-
 //    /**
 //     * @return Component[] Returns an array of Component objects
 //     */

@@ -8,6 +8,7 @@ use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateComponentVisitor;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,18 +17,29 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/component')]
 class ComponentController extends AbstractController
 {
-    #[Route('/{type}', name: 'app_component_index', methods: ['GET'])]
-    public function index(ComponentRepository $componentRepository, string $type = null): Response
+    #[Route('/', name: 'app_component_base', methods: ['GET'])]
+    public function initial(): Response
     {
-        $components = ($type === null) ? [] : $componentRepository->findAllByType($type);
-        $fields = ['name', 'value', 'tolerance', 'price'];
+        return $this->render('component/base.html.twig');
+    }
+
+    #[Route('/{type}', name: 'app_component_index', methods: ['GET'])]
+    public function listComponents(ManagerRegistry $registry, string $type): Response
+    {
         $types = [
+            'resistor' => Resistor::class,
+            'capacitor' => Capacitor::class,
+            'inductor' => Inductor::class
+        ];
+        $components = $registry->getRepository($types[$type])->findAll();
+        $fields = ['name', 'value', 'tolerance', 'price'];
+        $types_fields = [
             'resistor' => ['power', 'package'],
             'capacitor' => ['voltage', 'temperatureCoefficient'],
             'inductor' => ['maxCurrent', 'DCResistance'],
         ];
         return $this->render('component/index.html.twig', [
-            'fields' => ($type === null) ? $fields : array_merge($fields, $types[$type]),
+            'fields' => ($type === null) ? $fields : array_merge($fields, $types_fields[$type]),
             'components' => $components,
             'type' => $type,
         ]);
@@ -58,7 +70,7 @@ class ComponentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_component_show', methods: ['GET'])]
+    #[Route('/details/{id}', name: 'app_component_show', methods: ['GET'])]
     public function show(Component $component): Response
     {
         return $this->render('component/show.html.twig', [
@@ -75,7 +87,7 @@ class ComponentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $componentRepository->add($component, true);
 
-            return $this->redirectToRoute('app_component_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('component/edit.html.twig', [
@@ -91,6 +103,6 @@ class ComponentController extends AbstractController
             $componentRepository->remove($component, true);
         }
 
-        return $this->redirectToRoute('app_component_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
     }
 }

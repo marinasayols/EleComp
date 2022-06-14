@@ -1,34 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'component/base.html.twig' %}
 
 {% block title %}Component index{% endblock %}
 
-{% block body %}
-    <h1>Index</h1>
-
-    <ul class="nav nav-tabs" id="tabs">
-        <li class="nav-item nav-link" id="resistor-tab">
-            <a href="{{ path('app_component_index', {'type': 'resistor'}) }}"
-               class="text-decoration-none">Resistors</a>
-            <a href="{{ path('app_component_new', {'type': 'resistor'}) }}">
-                <i class="bi bi-plus-circle"></i>
-            </a>
-        </li>
-        <li class="nav-item nav-link" id="capacitor-tab">
-            <a href="{{ path('app_component_index', {'type': 'capacitor'}) }}"
-               class="text-decoration-none">Capacitors</a>
-            <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}">
-                <i class="bi bi-plus-circle"></i>
-            </a>
-        </li>
-        <li class="nav-item nav-link" id="inductor-tab">
-            <a href="{{ path('app_component_index', {'type': 'inductor'}) }}"
-               class="text-decoration-none">Inductors</a>
-            <a href="{{ path('app_component_new', {'type': 'inductor'}) }}">
-                <i class="bi bi-plus-circle"></i>
-            </a>
-        </li>
-    </ul>
-
+{% block table %}
     <table class="table">
         <thead>
         <tr>
