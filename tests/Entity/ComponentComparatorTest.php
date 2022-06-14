@@ -2,11 +2,11 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Component;
+use App\Entity\ComponentComparator;
 use App\Entity\Resistor;
 use PHPUnit\Framework\TestCase;
 
-class ComponentTest extends TestCase
+class ComponentComparatorTest extends TestCase
 {
     public function testCompareValue()
     {
@@ -16,8 +16,8 @@ class ComponentTest extends TestCase
         $r2->setValue("2n2");
         $r3 = new Resistor();
         $r3->setValue("2n2");
-        $this->assertSame(1, Component::compareValue($r1, $r2));
-        $this->assertSame(-1, Component::compareValue($r2, $r1));
-        $this->assertSame(0, Component::compareValue($r2, $r3));
+        $this->assertSame(1, ComponentComparator::compareValue($r1, $r2));
+        $this->assertSame(-1, ComponentComparator::compareValue($r2, $r1));
+        $this->assertSame(0, ComponentComparator::compareValue($r2, $r3));
     }
 }

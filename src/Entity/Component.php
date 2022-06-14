@@ -56,17 +56,6 @@ abstract class Component
         $this->providers = new ArrayCollection();
     }
 
-    public static function compareValue(Component $a, Component $b): int
-    {
-        $converter = new ValueConverter();
-        $a_val = $converter->getValue($a->getValue());
-        $b_val = $converter->getValue($b->getValue());
-        if ($a_val == $b_val) {
-            return 0;
-        }
-        return ($a_val < $b_val) ? -1 : 1;
-    }
-
     public function getValue(): ?string
     {
         return $this->value;

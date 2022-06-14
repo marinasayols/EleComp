@@ -6,7 +6,6 @@ use App\Entity\Capacitor;
 use App\Entity\Component;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
-use App\Form\InductorType;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateFormVisitor;
 use App\Visitor\CustomFieldsVisitor;
@@ -27,7 +26,7 @@ class ComponentController extends AbstractController
     }
 
     #[Route('/{type}', name: 'app_component_index', methods: ['GET'])]
-    public function listComponents(ManagerRegistry $registry, string $type): Response
+    public function listComponents(Request $request, ManagerRegistry $registry, string $type): Response
     {
         $types = [
             'resistor' => ['class' => Resistor::class, 'fields' => ['power', 'package']],
@@ -35,11 +34,30 @@ class ComponentController extends AbstractController
             'inductor' => ['class' => Inductor::class, 'fields' => ['maxCurrent', 'DCResistance']],
         ];
         $fields = ['name', 'value', 'tolerance', 'price'];
+        $repo = $registry->getRepository($types[$type]['class']);
+        $components = $repo->findAll();
+
+        if ($request->query->has('sort')) {
+            $components = $this->sort($request, $components);
+        }
+
         return $this->render('component/index.html.twig', [
             'fields' => array_merge($fields, $types[$type]['fields']),
-            'components' => $registry->getRepository($types[$type]['class'])->findAll(),
+            'components' => $components,
             'type' => $type,
         ]);
+    }
+
+    protected function sort(Request $request, array $components): array
+    {
+        $field = $request->query->get('sort');
+        usort($components,
+            ['App\Entity\ComponentComparator', 'compare' . $field]);
+        if ($request->query->has('asc')) {
+            $components = array_reverse($components, true);
+        }
+
+        return $components;
     }
 
     #[Route('/new/{type}', name: 'app_component_new', methods: ['GET', 'POST'])]
