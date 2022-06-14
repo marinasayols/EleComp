@@ -34,7 +34,7 @@ class ComponentComparator
 
     public static function comparePackage(Resistor $a, Resistor $b): int
     {
-        return $a->getPackage() <=> $b->getPackage();
+        return strcmp($a->getPackage(), $b->getPackage());
     }
 
     public static function compareVoltage(Capacitor $a, Capacitor $b): int
