@@ -7,6 +7,7 @@ use App\Entity\Component;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
+use App\Repository\ResistorRepository;
 use App\Visitor\CreateComponentVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/component')]
 class ComponentController extends AbstractController
 {
-    #[Route('/', name: 'app_component_index', methods: ['GET'])]
-    public function index(ComponentRepository $componentRepository): Response
+    #[Route('/{type}', name: 'app_component_index', methods: ['GET'])]
+    public function index(ComponentRepository $componentRepository, String $type = null): Response
     {
+        $components = ($type === null) ? [] : $componentRepository->findAllByType($type);
         return $this->render('component/index.html.twig', [
-            'components' => $componentRepository->findAll(),
+            'components' => $components,
         ]);
     }
 

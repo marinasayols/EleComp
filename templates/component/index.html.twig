@@ -5,37 +5,23 @@
 {% block body %}
     <h1>Index</h1>
 
-    <ul class="nav nav-tabs" id="componentTab">
-        <li class="nav-item">
-            <button class="nav-link active" id="resistor-tab" data-bs-toggle="tab" data-bs-target="#resistor" type="button"
-                    role="tab">Resistors <a href="{{ path('app_component_new', {'type': 'resistor'}) }}"><i
-                            class="bi bi-plus-circle"></i></a>
-            </button>
+    <ul class="nav nav-tabs">
+        <li class="nav-item nav-link active">
+            <a href="{{ path('app_component_index', {'type': 'resistor'}) }}">Resistors</a>
+            <a href="{{ path('app_component_new', {'type': 'resistor'}) }}"><i
+                        class="bi bi-plus-circle"></i></a>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="capacitor-tab" data-bs-toggle="tab" data-bs-target="#capacitor" type="button"
-                    role="tab">Capacitors <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}"><i
-                            class="bi bi-plus-circle"></i></a>
-            </button>
+        <li class="nav-item nav-link">
+            <a href="{{ path('app_component_index', {'type': 'capacitor'}) }}">Capacitors</a>
+            <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}"><i
+                        class="bi bi-plus-circle"></i></a>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="inductor-tab" data-bs-toggle="tab" data-bs-target="#inductor" type="button"
-                    role="tab">Inductors
-            </button>
+        <li class="nav-item nav-link">
+            <a href="{{ path('app_component_index', {'type': 'inductor'}) }}">Inductors</a>
+            <a href="{{ path('app_component_new', {'type': 'inductor'}) }}"><i
+                        class="bi bi-plus-circle"></i></a>
         </li>
     </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane show active" id="resistor" role="tabpanel">
-            <p>Here are Resistors!</p>
-        </div>
-        <div class="tab-pane" id="capacitor" role="tabpanel">
-            <p>Here are Capacitors!</p>
-        </div>
-        <div class="tab-pane" id="inductor" role="tabpanel">
-            <p>Here are Inductors!</p>
-        </div>
-    </div>
-
 
     <table class="table">
         <thead>
