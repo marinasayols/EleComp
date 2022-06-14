@@ -5,6 +5,38 @@
 {% block body %}
     <h1>Index</h1>
 
+    <ul class="nav nav-tabs" id="componentTab">
+        <li class="nav-item">
+            <button class="nav-link active" id="resistor-tab" data-bs-toggle="tab" data-bs-target="#resistor" type="button"
+                    role="tab">Resistors <a href="{{ path('app_component_new', {'type': 'resistor'}) }}"><i
+                            class="bi bi-plus-circle"></i></a>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="capacitor-tab" data-bs-toggle="tab" data-bs-target="#capacitor" type="button"
+                    role="tab">Capacitors <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}"><i
+                            class="bi bi-plus-circle"></i></a>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="inductor-tab" data-bs-toggle="tab" data-bs-target="#inductor" type="button"
+                    role="tab">Inductors
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane show active" id="resistor" role="tabpanel">
+            <p>Here are Resistors!</p>
+        </div>
+        <div class="tab-pane" id="capacitor" role="tabpanel">
+            <p>Here are Capacitors!</p>
+        </div>
+        <div class="tab-pane" id="inductor" role="tabpanel">
+            <p>Here are Inductors!</p>
+        </div>
+    </div>
+
+
     <table class="table">
         <thead>
         <tr>
@@ -36,6 +68,20 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_component_new', {'type': 'resistor'}) }}">Create Resistor</a>
+
     <a href="{{ path('app_component_new', {'type': 'capacitor'}) }}">Create Capacitor</a>
+{% endblock %}
+
+{% block js %}
+    <script>
+        let triggerTabList = [].slice.call(document.querySelectorAll('#componentTab button'))
+        triggerTabList.forEach(function (triggerEl) {
+            let tabTrigger = new bootstrap.Tab(triggerEl)
+
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault()
+                tabTrigger.show()
+            })
+        })
+    </script>
 {% endblock %}
