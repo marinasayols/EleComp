@@ -3,14 +3,27 @@
 {% block title %}Component{% endblock %}
 
 {% block body %}
-    <h1>Component</h1>
+    <h1>
+        <div class="row">
+            <div class="col">
+                {{ component.name }}
+                <a href="{{ path('app_component_edit', {'id': component.id}) }}"
+                   class="text-black">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+            </div>
+            <div class="col">
+                {{ include('component/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </h1>
+
+    <div class="btn-group">
+
+    </div>
 
     <table class="table">
         <tbody>
-        <tr>
-            <th>Name</th>
-            <td colspan="100%">{{ component.name }}</td>
-        </tr>
         <tr>
             <th>Value</th>
             <td>{{ component.value }}</td>
@@ -36,27 +49,51 @@
         </tbody>
     </table>
 
-    <h4>Manufacturers</h4>
-    <ul class="manufacturers">
-        {% for manufacturer in component.manufacturers %}
-            <li>{{ manufacturer.name }}</li>
-        {% else %}
-            <p>No manufacturers</p>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col">
+            <h4>Manufacturers</h4>
+            <ul class="manufacturers">
+                {% for manufacturer in component.manufacturers %}
+                    <li>{{ manufacturer.name }}</li>
+                {% else %}
+                    <p>No manufacturers</p>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col">
+            <h4>Providers</h4>
+            <ul class="providers">
+                {% for provider in component.providers %}
+                    <li>{{ provider.name }}</li>
+                {% else %}
+                    <p>No providers</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-    <h4>Providers</h4>
-    <ul class="providers">
-        {% for provider in component.providers %}
-            <li>{{ provider.name }}</li>
+    <h4>Projects</h4>
+    <table class="table w-auto">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for projectItem in component.projectItems %}
+            <tr>
+                <td>{{ projectItem.project.name }}</td>
+                <td>{{ projectItem.qty }}</td>
+            </tr>
         {% else %}
-            <p>No providers</p>
+            <tr>
+                <td colspan="100%">No projects</td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+
+    </table>
 
     <a href="{{ path('app_component_base') }}">back to list</a>
-
-    <a href="{{ path('app_component_edit', {'id': component.id}) }}">edit</a>
-
-    {{ include('component/_delete_form.html.twig') }}
 {% endblock %}
