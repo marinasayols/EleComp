@@ -2,24 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Capacitor;
+use App\Entity\Inductor;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CapacitorType extends ComponentType
+class InductorType extends ComponentType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder
-            ->add('voltage')
-            ->add('temperatureCoefficient');
+            ->add('maxCurrent')
+            ->add('dCResistance');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Capacitor::class,
+            'data_class' => Inductor::class,
         ]);
     }
+
 }

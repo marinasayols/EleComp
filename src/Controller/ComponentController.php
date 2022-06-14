@@ -6,6 +6,7 @@ use App\Entity\Capacitor;
 use App\Entity\Component;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
+use App\Form\InductorType;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateFormVisitor;
 use App\Visitor\CustomFieldsVisitor;

@@ -6,6 +6,7 @@ use App\Entity\Capacitor;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Form\CapacitorType;
+use App\Form\InductorType;
 use App\Form\ResistorType;
 
 class CreateFormVisitor implements Visitor
@@ -22,6 +23,6 @@ class CreateFormVisitor implements Visitor
 
     public function visitInductor(Inductor $component)
     {
-        echo "Inductor\n";
+        return InductorType::class;
     }
 }
