@@ -8,6 +8,8 @@ use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
 use App\Visitor\CreateFormVisitor;
+use App\Visitor\CustomFieldsVisitor;
+use App\Visitor\UnitsVisitor;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,6 +71,8 @@ class ComponentController extends AbstractController
     {
         return $this->render('component/show.html.twig', [
             'component' => $component,
+            'fields' => $component->accept(new CustomFieldsVisitor()),
+            'unit' => $component->accept(new UnitsVisitor()),
         ]);
     }
 

@@ -5,23 +5,22 @@ namespace App\Visitor;
 use App\Entity\Capacitor;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
-use App\Form\CapacitorType;
-use App\Form\ResistorType;
 
-class CreateFormVisitor implements Visitor
+class UnitsVisitor implements Visitor
 {
+
     public function visitResistor(Resistor $component)
     {
-        return ResistorType::class;
+        return 'Ω';
     }
 
     public function visitCapacitor(Capacitor $component)
     {
-        return CapacitorType::class;
+        return 'C';
     }
 
     public function visitInductor(Inductor $component)
     {
-        echo "Inductor\n";
+        return 'H';
     }
 }

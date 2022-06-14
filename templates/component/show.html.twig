@@ -8,12 +8,13 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Id</th>
-            <td>{{ component.id }}</td>
+            <th>Name</th>
+            <td colspan="100%">{{ component.name }}</td>
         </tr>
         <tr>
             <th>Value</th>
             <td>{{ component.value }}</td>
+            <td>{{ unit }}</td>
         </tr>
         <tr>
             <th>Tolerance</th>
@@ -25,6 +26,13 @@
             <td>{{ component.price }}</td>
             <td>€</td>
         </tr>
+        {% for field in fields %}
+            <tr>
+                <th>{{ field.name|capitalize }}</th>
+                <td>{{ attribute(component, field.name) }}</td>
+                <td>{{ field.unit }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
