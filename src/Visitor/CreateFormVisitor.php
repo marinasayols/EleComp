@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 
-class CreateComponentVisitor extends AbstractController implements Visitor
+class CreateFormVisitor extends AbstractController implements Visitor
 {
     public function visitResistor(Resistor $component)
     {

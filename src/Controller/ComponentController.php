@@ -7,7 +7,7 @@ use App\Entity\Component;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
-use App\Visitor\CreateComponentVisitor;
+use App\Visitor\CreateFormVisitor;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,20 +27,14 @@ class ComponentController extends AbstractController
     public function listComponents(ManagerRegistry $registry, string $type): Response
     {
         $types = [
-            'resistor' => Resistor::class,
-            'capacitor' => Capacitor::class,
-            'inductor' => Inductor::class
+            'resistor' => ['class' => Resistor::class, 'fields' => ['power', 'package']],
+            'capacitor' => ['class' => Capacitor::class, 'fields' => ['voltage', 'temperatureCoefficient']],
+            'inductor' => ['class' => Inductor::class, 'fields' => ['maxCurrent', 'DCResistance']],
         ];
-        $components = $registry->getRepository($types[$type])->findAll();
         $fields = ['name', 'value', 'tolerance', 'price'];
-        $types_fields = [
-            'resistor' => ['power', 'package'],
-            'capacitor' => ['voltage', 'temperatureCoefficient'],
-            'inductor' => ['maxCurrent', 'DCResistance'],
-        ];
         return $this->render('component/index.html.twig', [
-            'fields' => ($type === null) ? $fields : array_merge($fields, $types_fields[$type]),
-            'components' => $components,
+            'fields' => array_merge($fields, $types[$type]['fields']),
+            'components' => $registry->getRepository($types[$type]['class'])->findAll(),
             'type' => $type,
         ]);
     }
@@ -55,13 +49,13 @@ class ComponentController extends AbstractController
         ];
         $component = $types[$type];
 
-        $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
+        $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $componentRepository->add($component, true);
 
-            return $this->redirectToRoute('app_component_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('component/new.html.twig', [
@@ -70,7 +64,7 @@ class ComponentController extends AbstractController
         ]);
     }
 
-    #[Route('/details/{id}', name: 'app_component_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'app_component_show', methods: ['GET'])]
     public function show(Component $component): Response
     {
         return $this->render('component/show.html.twig', [
@@ -81,7 +75,7 @@ class ComponentController extends AbstractController
     #[Route('/{id}/edit', name: 'app_component_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Component $component, ComponentRepository $componentRepository): Response
     {
-        $form = $this->createForm($component->accept(new CreateComponentVisitor()), $component);
+        $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
