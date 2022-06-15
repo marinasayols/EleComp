@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Capacitor;
 use App\Entity\Component;
+use App\Entity\Filter;
+use App\Entity\FilterBuilder;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;
+use App\Service\FilterComponentService;
 use App\Visitor\CreateFormVisitor;
 use App\Visitor\CustomFieldsVisitor;
 use App\Visitor\UnitsVisitor;
@@ -34,11 +37,15 @@ class ComponentController extends AbstractController
             'inductor' => ['class' => Inductor::class, 'fields' => ['maxCurrent', 'DCResistance']],
         ];
         $fields = ['name', 'value', 'tolerance', 'price'];
-        $repo = $registry->getRepository($types[$type]['class']);
-        $components = $repo->findAll();
+        $repository = $registry->getRepository($types[$type]['class']);
+        $components = $repository->findAll();
 
         if ($request->query->has('sort')) {
             $components = $this->sort($request, $components);
+        }
+
+        if ($request->query->has('field')) {
+            $components = $this->filter($request, $repository);
         }
 
         return $this->render('component/index.html.twig', [
@@ -56,8 +63,15 @@ class ComponentController extends AbstractController
         if ($request->query->has('asc')) {
             $components = array_reverse($components, true);
         }
-
         return $components;
+    }
+
+    private function filter(Request $request, $repository): array
+    {
+        $filter = new Filter();
+        $filter->setField($request->query->get('field'));
+        $filter->setValue($request->query->get('value'));
+        return FilterComponentService::findByField($filter, $repository);
     }
 
     #[Route('/new/{type}', name: 'app_component_new', methods: ['GET', 'POST'])]
