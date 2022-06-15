@@ -3,6 +3,20 @@
 {% block title %}Component index{% endblock %}
 
 {% block table %}
+    <form id="filters" action="{{ path('app_component_index', {'type':type}) }}">
+        <h4>Filters</h4>
+        <label for="field">Field:</label>
+        <select name="field" id="field">
+            {% for field in fields %}
+                <option value="{{ field }}">{{ field }}</option>
+            {% endfor %}
+        </select>
+        <label for="value">Value:</label>
+        <input type="text" id="value" name="value">
+        <button class="btn btn-primary">Search</button>
+    </form>
+
+
     <table class="table">
         <thead>
         <tr>

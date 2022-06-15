@@ -75,7 +75,6 @@ class ComponentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $componentRepository->add($component, true);
-
             return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -103,7 +102,6 @@ class ComponentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $componentRepository->add($component, true);
-
             return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
         }
 
