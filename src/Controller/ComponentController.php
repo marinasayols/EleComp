@@ -82,6 +82,7 @@ class ComponentController extends AbstractController
             'inductor' => new Inductor(),
         ];
         $component = $types[$type];
+        $component->setUser($this->getUser());
 
         $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
         $form->handleRequest($request);

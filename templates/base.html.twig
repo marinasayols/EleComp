@@ -33,6 +33,9 @@
             </li>
         </ul>
         <ul class="navbar-nav navbar-right">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p>{{ app.user.email }}</p>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
             </li>
@@ -41,7 +44,6 @@
 </nav>
 
 {% block body %}{% endblock %}
-{% block js %}
-{% endblock %}
+{% block js %}{% endblock %}
 </body>
 </html>
