@@ -31,10 +31,18 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_project_index') }}">Projects</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_manufacturer_index') }}">Manufacturers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_provider_index') }}">Providers</a>
+            </li>
         </ul>
         <ul class="navbar-nav navbar-right">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p>{{ app.user.email }}</p>
+                <li class="nav-item nav-text">
+                    <p>{{ app.user.email }}</p>
+                </li>
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
