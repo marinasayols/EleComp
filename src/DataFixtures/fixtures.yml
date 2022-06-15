@@ -31,6 +31,17 @@ App\Entity\Capacitor:
     voltage: <numberBetween(1, 25)>
     temperature_coefficient: X<numberBetween(1, 5)>R
 
+App\Entity\Inductor:
+  L{1..5}:
+    name: 'L<($current)>'
+    value: <numberBetween(1,100)>m
+    tolerance: <numberBetween(5, 20)>
+    price: <numberBetween(0.01, 10)>
+    manufacturers: '<numberBetween(1,5)>x @manufacturer_*'
+    providers: '<numberBetween(0,5)>x @provider_*'
+    max_current: <numberBetween(1, 300)>
+    dc_resistance: <numberBetween(0.00, 1.00)>
+
 App\Entity\Project:
   project_{1..3}:
     name: <word()>
