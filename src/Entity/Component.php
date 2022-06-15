@@ -7,6 +7,7 @@ use App\Visitor\Visitor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Validator\Constraints\Valid;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
@@ -60,6 +61,13 @@ abstract class Component
     )]
     #[Valid]
     private $projectItems;
+
+    #[ORM\ManyToOne(targetEntity: User::class,
+        cascade: ['persist', 'merge'],
+        inversedBy: 'components')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Blameable(on: 'create')]
+    private $user;
 
     public function __construct()
     {
@@ -195,6 +203,18 @@ abstract class Component
                 $projectItem->setComponent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Capacitor;
 use App\Entity\Component;
 use App\Entity\Filter;
-use App\Entity\FilterBuilder;
 use App\Entity\Inductor;
 use App\Entity\Resistor;
 use App\Repository\ComponentRepository;

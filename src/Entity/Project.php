@@ -33,6 +33,10 @@ class Project
     #[Valid]
     private $projectItems;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
+
     public function __construct()
     {
         $this->projectItems = new ArrayCollection();
@@ -93,6 +97,18 @@ class Project
                 $projectItem->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
