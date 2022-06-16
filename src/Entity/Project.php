@@ -6,8 +6,8 @@ use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Valid;
+use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -18,7 +18,7 @@ class Project
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    #[NotBlank]
+    #[Assert\NotBlank]
     private $name;
 
     #[ORM\Column(type: 'text')]
@@ -30,11 +30,12 @@ class Project
         cascade: ['persist'],
         orphanRemoval: true
     )]
-    #[Valid]
+    #[Assert\Valid]
     private $projectItems;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Blameable(on: 'create')]
     private $user;
 
     public function __construct()

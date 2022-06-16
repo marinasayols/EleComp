@@ -25,12 +25,12 @@ class ProjectController extends AbstractController
     public function new(Request $request, ProjectRepository $projectRepository): Response
     {
         $project = new Project();
+        $project->setUser($this->getUser());
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $projectRepository->add($project, true);
-
             return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
         }
 

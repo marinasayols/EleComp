@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ProjectItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: ProjectItemRepository::class)]
+#[UniqueEntity(fields: ['project', 'component'],
+    message: 'The project already has this component.',
+    errorPath: 'component')]
 class ProjectItem
 {
     #[ORM\Id]
