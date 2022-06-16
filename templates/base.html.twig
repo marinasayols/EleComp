@@ -24,30 +24,29 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">EleComp</span>
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_component_base' ) }}">Components</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_project_index') }}">Projects</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_manufacturer_index') }}">Manufacturers</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_provider_index') }}">Providers</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav navbar-right">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item nav-text">
-                    <p>{{ app.user.email }}</p>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_component_base' ) }}">Components</a>
                 </li>
-            {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
-            </li>
-        </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_project_index') }}">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_manufacturer_index') }}">Manufacturers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_provider_index') }}">Providers</a>
+                </li>
+            </ul>
+            <span class="navbar-text navbar-right">{{ app.user.email }}</span>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                </li>
+            </ul>
+        {% endif %}
+
     </div>
 </nav>
 
