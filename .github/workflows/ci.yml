@@ -1,67 +1,39 @@
-# GitHub Action for Symfony with MySQL
-name: Testing Symfony with MySQL
+name: Tests
 on: [ push, pull_request ]
 jobs:
-  symfony:
-    name: Symfony 8.1
+  tests:
     runs-on: ubuntu-latest
-
-    # Docs: https://docs.github.com/en/actions/using-containerized-services
+    strategy:
+      matrix:
+        operating-system: [ 'ubuntu-latest' ]
+        php-versions: [ '8.1' ]
+        phpunit-versions: [ 'latest' ]
+        include:
+          - operating-system: 'ubuntu-latest'
+            php-versions: '8.1'
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: symfony
-          MYSQL_DATABASE: symfony
+          MYSQL_DATABASE: test_database
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: rootpass
+          MYSQL_ROOT_PASSWORD: rootpass
         ports:
-          - 3306/tcp
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      # Docs: https://github.com/shivammathur/setup-php
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-php@master
         with:
           php-version: '8.1'
-          tools: phpunit-bridge
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
-          coverage: xdebug
-
-      # Local MySQL service in GitHub hosted environments is disabled by default.
-      # If you are using it instead of service containers, make sure you start it.
-      # - name: Start mysql service
-      #   run: sudo systemctl start mysql.service
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Run Migration
+      - name: Copy .env
         run: |
-          composer require --dev symfony/orm-pack
-          php bin/console doctrine:schema:update --force || echo "No migrations found or schema update failed"
-          php bin/console doctrine:migrations:migrate || echo "No migrations found or migration failed"
-        env:
-          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
-
-      - name: Install PHPUnit
-        run: simple-phpunit install
-
-      - name: Run tests
-        run: simple-phpunit --coverage-text
+          php -r "file_exists('.env') || copy('.env.github', '.env');"
+      - name: Update Composer
+        run: sudo composer self-update 1.10.15 --no-interaction
+      - name: Run Composer Install
+        run: composer install --no-interaction
+      - name: run tests
+        run: vendor/bin/phpunit
