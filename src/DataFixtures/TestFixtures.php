@@ -2,19 +2,29 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Resistor;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Nelmio\Alice\Loader\NativeLoader;
 
 class TestFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $loader = new NativeLoader();
-        $objectSet = $loader->loadFile(__DIR__ . '/test_fixtures.yml')->getObjects();
-        foreach ($objectSet as $obj) {
-            $manager->persist($obj);
-        }
+        $user = new User();
+        $user->setEmail('user@example.com');
+        $user->setPassword('123456');
+        $manager->persist($user);
+
+        $fixture = new Resistor();
+        $fixture->setName('R1');
+        $fixture->setValue('Old');
+        $fixture->setTolerance(10);
+        $fixture->setPrice(0.01);
+        $fixture->setUser($user);
+        $fixture->setPower(1);
+        $fixture->setPackage('Old');
+        $manager->persist($fixture);
         $manager->flush();
     }
 }

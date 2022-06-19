@@ -50,7 +50,7 @@ abstract class Component
         inversedBy: 'components',
         cascade: ['persist', 'remove'])
     ]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $providers;
 
     #[ORM\OneToMany(

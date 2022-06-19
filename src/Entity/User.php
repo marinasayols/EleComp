@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -157,13 +157,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeComponent(Component $component): self
     {
-        if ($this->components->removeElement($component)) {
-            // set the owning side to null (unless already changed)
-            if ($component->getUser() === $this) {
-                $component->setUser(null);
-            }
+        if ($this->components->removeElement($component) & $component->getUser() === $this) {
+            $component->setUser(null);
         }
-
         return $this;
     }
 
@@ -181,17 +177,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->projects[] = $project;
             $project->setUser($this);
         }
-
         return $this;
     }
 
     public function removeProject(Project $project): self
     {
-        if ($this->projects->removeElement($project)) {
-            // set the owning side to null (unless already changed)
-            if ($project->getUser() === $this) {
-                $project->setUser(null);
-            }
+        if ($this->projects->removeElement($project) & $project->getUser() === $this) {
+            $project->setUser(null);
         }
 
         return $this;
@@ -217,13 +209,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeProvider(Provider $provider): self
     {
-        if ($this->providers->removeElement($provider)) {
-            // set the owning side to null (unless already changed)
-            if ($provider->getUser() === $this) {
-                $provider->setUser(null);
-            }
+        if ($this->providers->removeElement($provider) & $provider->getUser() === $this) {
+            $provider->setUser(null);
         }
-
         return $this;
     }
 
@@ -247,11 +235,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeManufacturer(Manufacturer $manufacturer): self
     {
-        if ($this->manufacturers->removeElement($manufacturer)) {
-            // set the owning side to null (unless already changed)
-            if ($manufacturer->getUser() === $this) {
-                $manufacturer->setUser(null);
-            }
+        if ($this->manufacturers->removeElement($manufacturer) & $manufacturer->getUser() === $this) {
+            $manufacturer->setUser(null);
         }
 
         return $this;
