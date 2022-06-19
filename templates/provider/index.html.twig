@@ -7,24 +7,21 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
         {% for provider in providers %}
             <tr>
-                <td>{{ provider.id }}</td>
                 <td>{{ provider.name }}</td>
                 <td>{{ provider.phone }}</td>
                 <td>{{ provider.email }}</td>
                 <td>
-                    <a href="{{ path('app_provider_show', {'id': provider.id}) }}">show</a>
-                    <a href="{{ path('app_provider_edit', {'id': provider.id}) }}">edit</a>
+                    {{ include('provider/_actions.html.twig') }}
                 </td>
             </tr>
         {% else %}
