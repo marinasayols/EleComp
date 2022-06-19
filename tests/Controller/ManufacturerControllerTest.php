@@ -2,15 +2,18 @@
 
 namespace App\Tests\Controller;
 
+use App\DataFixtures\TestFixtures;
 use App\Entity\Manufacturer;
 use App\Entity\User;
 use App\Repository\ManufacturerRepository;
 use App\Repository\UserRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ManufacturerControllerTest extends WebTestCase
 {
+    protected $databaseTool;
     private KernelBrowser $client;
     private ManufacturerRepository $repository;
     private string $path = '/manufacturer/';
@@ -107,15 +110,24 @@ class ManufacturerControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool->loadFixtures([TestFixtures::class]);
+
         $this->client = static::createClient();
-        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Manufacturer::class);
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $this->user = $userRepository->findOneByEmail('user@example.com');
         $this->client->loginUser($this->user);
 
+        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Manufacturer::class);
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->databaseTool);
     }
 }
