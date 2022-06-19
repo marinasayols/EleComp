@@ -23,10 +23,10 @@
             {% for field in fields %}
                 <th class="text-center">
                     {{ field }}
-                    <a href="{{ path('app_component_index', {'type': type, 'sort':field}) }}"><i
+                    <a href="{{ path('app_component_index', {'type': type, 'sort':field}) }}"><span
                                 class="bi-sort-up"></span></a>
-                    <a href="{{ path('app_component_index', {'type': type, 'sort':field, 'asc':'true'}) }}"><i
-                                class="bi-sort-down"></span></a>
+                    <a href="{{ path('app_component_index', {'type': type, 'sort':field, 'asc':'true'}) }}"><spann
+                                class="bi-sort-down"></spann></a>
                 </th>
             {% endfor %}
             <th></th>
