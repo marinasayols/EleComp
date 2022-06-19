@@ -34,10 +34,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class, orphanRemoval: true)]
     private $projects;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Provider::class, orphanRemoval: true)]
+    private $providers;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Manufacturer::class, orphanRemoval: true)]
+    private $manufacturers;
+
     public function __construct()
     {
         $this->components = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->providers = new ArrayCollection();
+        $this->manufacturers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +191,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($project->getUser() === $this) {
                 $project->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Provider>
+     */
+    public function getProviders(): Collection
+    {
+        return $this->providers;
+    }
+
+    public function addProvider(Provider $provider): self
+    {
+        if (!$this->providers->contains($provider)) {
+            $this->providers[] = $provider;
+            $provider->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvider(Provider $provider): self
+    {
+        if ($this->providers->removeElement($provider)) {
+            // set the owning side to null (unless already changed)
+            if ($provider->getUser() === $this) {
+                $provider->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Manufacturer>
+     */
+    public function getManufacturers(): Collection
+    {
+        return $this->manufacturers;
+    }
+
+    public function addManufacturer(Manufacturer $manufacturer): self
+    {
+        if (!$this->manufacturers->contains($manufacturer)) {
+            $this->manufacturers[] = $manufacturer;
+            $manufacturer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManufacturer(Manufacturer $manufacturer): self
+    {
+        if ($this->manufacturers->removeElement($manufacturer)) {
+            // set the owning side to null (unless already changed)
+            if ($manufacturer->getUser() === $this) {
+                $manufacturer->setUser(null);
             }
         }
 

@@ -37,7 +37,7 @@ class ComponentController extends AbstractController
         ];
         $fields = ['name', 'value', 'tolerance', 'price'];
         $repository = $registry->getRepository($types[$type]['class']);
-        $components = $repository->findAll();
+        $components = $repository->findBy(['user' => $this->getUser()]);
 
         if ($request->query->has('sort')) {
             $components = $this->sort($request, $components);

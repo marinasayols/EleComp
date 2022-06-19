@@ -18,7 +18,7 @@ class ManufacturerController extends AbstractController
     public function index(ManufacturerRepository $manufacturerRepository): Response
     {
         return $this->render('manufacturer/index.html.twig', [
-            'manufacturers' => $manufacturerRepository->findAll(),
+            'manufacturers' => $manufacturerRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 
@@ -26,6 +26,7 @@ class ManufacturerController extends AbstractController
     public function new(Request $request, ManufacturerRepository $manufacturerRepository): Response
     {
         $manufacturer = new Manufacturer();
+        $manufacturer->setUser($this->getUser());
         $form = $this->createForm(ManufacturerType::class, $manufacturer);
         $form->handleRequest($request);
 
@@ -70,7 +71,7 @@ class ManufacturerController extends AbstractController
     #[Route('/{id}', name: 'app_manufacturer_delete', methods: ['POST'])]
     public function delete(Request $request, Manufacturer $manufacturer, ManufacturerRepository $manufacturerRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$manufacturer->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $manufacturer->getId(), $request->request->get('_token'))) {
             $manufacturerRepository->remove($manufacturer, true);
         }
 
