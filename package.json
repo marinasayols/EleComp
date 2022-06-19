@@ -1,4 +1,10 @@
 {
+    "name": "elecomp",
+    "version": "1.0.0",
+    "engines": {
+        "node": "v16.15.*",
+        "npm": "8.11.*"
+    },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "@popperjs/core": "^2.11.5",
@@ -14,7 +20,8 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "heroku-postbuild": "webpack -p --config ./webpack.config.js && php bin/console d:s:u --force"
     },
     "dependencies": {
         "bootstrap": "^5.1.3",
