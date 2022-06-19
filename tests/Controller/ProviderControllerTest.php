@@ -12,6 +12,8 @@ class ProviderControllerTest extends WebTestCase
     private KernelBrowser $client;
     private ProviderRepository $repository;
     private string $path = '/provider/';
+    private string $title = 'My Title';
+    private string $new = 'Something new';
 
     public function testIndex(): void
     {
@@ -38,7 +40,7 @@ class ProviderControllerTest extends WebTestCase
             'provider[email]' => 'Testing',
         ]);
 
-        self::assertResponseRedirects('/provider/');
+        self::assertResponseRedirects($this->path);
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
     }
@@ -46,9 +48,9 @@ class ProviderControllerTest extends WebTestCase
     public function testShow(): void
     {
         $fixture = new Provider();
-        $fixture->setName('My Title');
+        $fixture->setName($this->title);
         $fixture->setPhone(111111111);
-        $fixture->setEmail('My Title');
+        $fixture->setEmail($this->title);
 
         $this->repository->add($fixture, true);
 
@@ -63,27 +65,27 @@ class ProviderControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $fixture = new Provider();
-        $fixture->setName('My Title');
+        $fixture->setName($this->title);
         $fixture->setPhone(111111111);
-        $fixture->setEmail('My Title');
+        $fixture->setEmail($this->title);
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'provider[name]' => 'Something New',
+            'provider[name]' => $this->new,
             'provider[phone]' => 222222222,
-            'provider[email]' => 'Something New',
+            'provider[email]' => $this->new,
         ]);
 
-        self::assertResponseRedirects('/provider/');
+        self::assertResponseRedirects($this->path);
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getName());
+        self::assertSame($this->new, $fixture[0]->getName());
         self::assertSame(222222222, $fixture[0]->getPhone());
-        self::assertSame('Something New', $fixture[0]->getEmail());
+        self::assertSame($this->new, $fixture[0]->getEmail());
     }
 
     public function testRemove(): void
@@ -91,9 +93,9 @@ class ProviderControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Provider();
-        $fixture->setName('My Title');
+        $fixture->setName($this->title);
         $fixture->setPhone(111111111);
-        $fixture->setEmail('My Title');
+        $fixture->setEmail($this->title);
 
         $this->repository->add($fixture, true);
 
@@ -103,7 +105,7 @@ class ProviderControllerTest extends WebTestCase
         $this->client->submitForm('Delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-        self::assertResponseRedirects('/provider/');
+        self::assertResponseRedirects($this->path);
     }
 
     protected function setUp(): void

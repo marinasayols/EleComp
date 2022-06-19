@@ -12,6 +12,8 @@ class ManufacturerControllerTest extends WebTestCase
     private KernelBrowser $client;
     private ManufacturerRepository $repository;
     private string $path = '/manufacturer/';
+    private string $title = 'My title';
+    private string $new = 'Something new';
 
     public function testIndex(): void
     {
@@ -19,9 +21,6 @@ class ManufacturerControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Manufacturer index');
-
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
     }
 
     public function testNew(): void
@@ -37,7 +36,7 @@ class ManufacturerControllerTest extends WebTestCase
             'manufacturer[website]' => 'Testing',
         ]);
 
-        self::assertResponseRedirects('/manufacturer/');
+        self::assertResponseRedirects($this->path);
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
     }
@@ -45,8 +44,8 @@ class ManufacturerControllerTest extends WebTestCase
     public function testShow(): void
     {
         $fixture = new Manufacturer();
-        $fixture->setName('My Title');
-        $fixture->setWebsite('My Title');
+        $fixture->setName($this->title);
+        $fixture->setWebsite($this->title);
 
         $this->repository->add($fixture, true);
 
@@ -61,24 +60,24 @@ class ManufacturerControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $fixture = new Manufacturer();
-        $fixture->setName('My Title');
-        $fixture->setWebsite('My Title');
+        $fixture->setName($this->title);
+        $fixture->setWebsite($this->title);
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'manufacturer[name]' => 'Something New',
-            'manufacturer[website]' => 'Something New',
+            'manufacturer[name]' => $this->new,
+            'manufacturer[website]' => $this->new,
         ]);
 
-        self::assertResponseRedirects('/manufacturer/');
+        self::assertResponseRedirects($this->path);
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getName());
-        self::assertSame('Something New', $fixture[0]->getWebsite());
+        self::assertSame($this->new, $fixture[0]->getName());
+        self::assertSame($this->new, $fixture[0]->getWebsite());
     }
 
     public function testRemove(): void
@@ -86,8 +85,8 @@ class ManufacturerControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Manufacturer();
-        $fixture->setName('My Title');
-        $fixture->setWebsite('My Title');
+        $fixture->setName($this->title);
+        $fixture->setWebsite($this->title);
 
         $this->repository->add($fixture, true);
 
@@ -97,7 +96,7 @@ class ManufacturerControllerTest extends WebTestCase
         $this->client->submitForm('Delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-        self::assertResponseRedirects('/manufacturer/');
+        self::assertResponseRedirects($this->path);
     }
 
     protected function setUp(): void
