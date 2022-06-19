@@ -24,9 +24,9 @@
                 <th class="text-center">
                     {{ field }}
                     <a href="{{ path('app_component_index', {'type': type, 'sort':field}) }}"><i
-                                class="bi-sort-up"></i></a>
+                                class="bi-sort-up"></span></a>
                     <a href="{{ path('app_component_index', {'type': type, 'sort':field, 'asc':'true'}) }}"><i
-                                class="bi-sort-down"></i></a>
+                                class="bi-sort-down"></span></a>
                 </th>
             {% endfor %}
             <th></th>

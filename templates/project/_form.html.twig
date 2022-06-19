@@ -3,7 +3,7 @@
 {% macro printProjectItemRow(projectItemForm) %}
     <div class="col col-xs-4 js-project-item">
         <a href="#" class="js-remove-item">
-            <i class="bi bi-trash"></i>
+            <span class="bi bi-trash"></span>
         </a>
         {{ form_errors(projectItemForm) }}
         {% if projectItemForm.component is defined %}
@@ -29,7 +29,7 @@
         {{ formMacros.printProjectItemRow(projectItemForm) }}
     {% endfor %}
     <a href="#" class="js-add-item">
-        <i class="bi bi-plus-circle"></i>
+        <span class="bi bi-plus-circle"></span>
         Add Item
     </a>
 </div>
