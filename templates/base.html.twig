@@ -11,8 +11,9 @@
     {% endblock %}
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        {# encore_entry_script_tags('app') #}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script>
             window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
         </script>
@@ -41,7 +42,8 @@
             <span class="navbar-text navbar-right">{{ app.user.email }}</span>
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}"><span class="bi bi-box-arrow-right"></span> Logout</a>
+                    <a class="nav-link" href="{{ path('app_logout') }}"><span class="bi bi-box-arrow-right"></span>
+                        Logout</a>
                 </li>
             </ul>
         {% endif %}
