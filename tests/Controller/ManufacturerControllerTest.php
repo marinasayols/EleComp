@@ -110,10 +110,10 @@ class ManufacturerControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
+        $this->client = static::createClient();
+
         $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
         $this->databaseTool->loadFixtures([TestFixtures::class]);
-
-        $this->client = static::createClient();
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $this->user = $userRepository->findOneByEmail('user@example.com');

@@ -2,15 +2,18 @@
 
 namespace App\Tests\Controller;
 
+use App\DataFixtures\TestFixtures;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Repository\ProviderRepository;
 use App\Repository\UserRepository;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ProviderControllerTest extends WebTestCase
 {
+    protected $databaseTool;
     private KernelBrowser $client;
     private ProviderRepository $repository;
     private string $path = '/provider/';
@@ -117,14 +120,23 @@ class ProviderControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Provider::class);
+
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool->loadFixtures([TestFixtures::class]);
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $this->user = $userRepository->findOneByEmail('user@example.com');
         $this->client->loginUser($this->user);
 
+        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Provider::class);
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->databaseTool);
     }
 }
