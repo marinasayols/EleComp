@@ -17,7 +17,7 @@ class ProviderController extends AbstractController
     public function index(ProviderRepository $providerRepository): Response
     {
         return $this->render('provider/index.html.twig', [
-            'providers' => $providerRepository->findAll(),
+            'providers' => $providerRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 
@@ -25,6 +25,7 @@ class ProviderController extends AbstractController
     public function new(Request $request, ProviderRepository $providerRepository): Response
     {
         $provider = new Provider();
+        $provider->setUser($this->getUser());
         $form = $this->createForm(ProviderType::class, $provider);
         $form->handleRequest($request);
 
@@ -69,7 +70,7 @@ class ProviderController extends AbstractController
     #[Route('/{id}', name: 'app_provider_delete', methods: ['POST'])]
     public function delete(Request $request, Provider $provider, ProviderRepository $providerRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$provider->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $provider->getId(), $request->request->get('_token'))) {
             $providerRepository->remove($provider, true);
         }
 

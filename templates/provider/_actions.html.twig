@@ -1,17 +1,21 @@
 <div class="row  align-items-center">
     <div class="col d-flex justify-content-center">
-        <a href="{{ path('app_project_show', {'id': project.id}) }}"
+        <a href="{{ path('app_provider_show', {'id': provider.id}) }}"
            class="link-dark">
             <span class="bi bi-eye-fill"></span>
         </a>
     </div>
     <div class="col d-flex justify-content-center">
-        <a href="{{ path('app_project_edit', {'id': project.id}) }}"
+        <a href="{{ path('app_provider_edit', {'id': provider.id}) }}"
            class="link-dark">
             <span class="bi bi-pencil-square"></span>
         </a>
     </div>
     <div class="col">
-        {{ include('project/_delete_form.html.twig') }}
+        {% if provider.components is empty %}
+            {{ include('provider/_delete_form.html.twig') }}
+        {% else %}
+            <button class="btn" disabled><span class="bi bi-trash text-muted"></span></button>
+        {% endif %}
     </div>
 </div>

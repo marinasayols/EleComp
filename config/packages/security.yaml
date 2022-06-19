@@ -37,7 +37,7 @@ security:
     - { path: ^/project, roles: [ IS_AUTHENTICATED_FULLY ] }
     - { path: ^/manufacturer, roles: [ IS_AUTHENTICATED_FULLY ] }
     - { path: ^/provider, roles: [ IS_AUTHENTICATED_FULLY ] }
-  # - { path: ^/profile, roles: ROLE_USER }
+  #  - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
   security:

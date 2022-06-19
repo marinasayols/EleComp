@@ -27,6 +27,10 @@ class Provider
     #[ORM\ManyToMany(targetEntity: Component::class, mappedBy: 'providers')]
     private $components;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'providers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
+
     public function __construct()
     {
         $this->components = new ArrayCollection();
@@ -96,6 +100,18 @@ class Provider
         if ($this->components->removeElement($component)) {
             $component->removeProvider($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

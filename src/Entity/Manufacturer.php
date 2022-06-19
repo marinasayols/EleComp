@@ -24,6 +24,10 @@ class Manufacturer
     #[ORM\ManyToMany(targetEntity: Component::class, mappedBy: 'manufacturers')]
     private $components;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'manufacturers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
+
     public function __construct()
     {
         $this->components = new ArrayCollection();
@@ -81,6 +85,18 @@ class Manufacturer
         if ($this->components->removeElement($component)) {
             $component->removeManufacturer($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

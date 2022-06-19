@@ -1,19 +1,19 @@
 <div class="row  align-items-center">
     <div class="col d-flex justify-content-center">
-        <a href="{{ path('app_component_show', {'id': component.id}) }}"
+        <a href="{{ path('app_manufacturer_show', {'id': manufacturer.id}) }}"
            class="link-dark">
             <span class="bi bi-eye-fill"></span>
         </a>
     </div>
     <div class="col d-flex justify-content-center">
-        <a href="{{ path('app_component_edit', {'id': component.id}) }}"
+        <a href="{{ path('app_manufacturer_edit', {'id': manufacturer.id}) }}"
            class="link-dark">
             <span class="bi bi-pencil-square"></span>
         </a>
     </div>
     <div class="col">
-        {% if component.projectItems is empty %}
-            {{ include('component/_delete_form.html.twig') }}
+        {% if manufacturer.components is empty %}
+            {{ include('manufacturer/_delete_form.html.twig') }}
         {% else %}
             <button class="btn" disabled><span class="bi bi-trash text-muted"></span></button>
         {% endif %}
