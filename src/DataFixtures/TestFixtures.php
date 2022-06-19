@@ -18,12 +18,22 @@ class TestFixtures extends Fixture
 
         $fixture = new Resistor();
         $fixture->setName('R1');
-        $fixture->setValue('Old');
+        $fixture->setValue('1n');
         $fixture->setTolerance(10);
         $fixture->setPrice(0.01);
         $fixture->setUser($user);
         $fixture->setPower(1);
-        $fixture->setPackage('Old');
+        $fixture->setPackage('0603');
+        $manager->persist($fixture);
+
+        $fixture = new Resistor();
+        $fixture->setName('R2');
+        $fixture->setValue('1u');
+        $fixture->setTolerance(5);
+        $fixture->setPrice(0.01);
+        $fixture->setUser($user);
+        $fixture->setPower(1);
+        $fixture->setPackage('0603');
         $manager->persist($fixture);
         $manager->flush();
     }

@@ -87,11 +87,44 @@ class ComponentControllerTest extends WebTestCase
     {
         $types = ['resistor', 'capacitor', 'inductor'];
         foreach ($types as $type) {
-            $crawler = $this->client->request('GET', $this->path . $type);
+            $crawler = $this->client->request('GET', sprintf('%s%s', $this->path, $type));
             self::assertResponseStatusCodeSame(200);
             self::assertPageTitleContains('Component index');
             self::assertEquals(1, $crawler->filter('table#t-' . $type)->count());
         }
+    }
+
+    public function testSortUp()
+    {
+        $crawler = $this->client->request('GET', sprintf('%s%s', $this->path, 'resistor'));
+        $link = $crawler->filter('#sort-value-up')->link();
+        $crawler = $this->client->click($link);
+        self::assertResponseStatusCodeSame(200);
+        $components = $crawler->filter('table tbody tr');
+        self::assertEquals('R1', $components->first()->filter('td')->first()->text());
+
+    }
+
+    public function testSortDown()
+    {
+        $crawler = $this->client->request('GET', sprintf('%s%s', $this->path, 'resistor'));
+        $link = $crawler->filter('#sort-value-down')->link();
+        $crawler = $this->client->click($link);
+        self::assertResponseStatusCodeSame(200);
+        $components = $crawler->filter('table tbody tr');
+        self::assertEquals('R2', $components->first()->filter('td')->first()->text());
+
+    }
+
+    public function testFilter()
+    {
+        $crawler = $this->client->request('GET', sprintf('%s%s', $this->path, 'resistor'));
+        $form = $crawler->selectButton('Search')->form();
+        $form['field']='value';
+        $form['value']='1n';
+        $crawler = $this->client->submit($form);
+        self::assertResponseStatusCodeSame(200);
+        self::assertCount(1, $crawler->filter('table tbody tr'));
     }
 
     public function testDelete()
