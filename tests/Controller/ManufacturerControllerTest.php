@@ -3,7 +3,9 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Manufacturer;
+use App\Entity\User;
 use App\Repository\ManufacturerRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -14,6 +16,7 @@ class ManufacturerControllerTest extends WebTestCase
     private string $path = '/manufacturer/';
     private string $title = 'My title';
     private string $new = 'Something new';
+    private User $user;
 
     public function testIndex(): void
     {
@@ -46,6 +49,7 @@ class ManufacturerControllerTest extends WebTestCase
         $fixture = new Manufacturer();
         $fixture->setName($this->title);
         $fixture->setWebsite($this->title);
+        $fixture->setUser($this->user);
 
         $this->repository->add($fixture, true);
 
@@ -62,6 +66,7 @@ class ManufacturerControllerTest extends WebTestCase
         $fixture = new Manufacturer();
         $fixture->setName($this->title);
         $fixture->setWebsite($this->title);
+        $fixture->setUser($this->user);
 
         $this->repository->add($fixture, true);
 
@@ -87,13 +92,14 @@ class ManufacturerControllerTest extends WebTestCase
         $fixture = new Manufacturer();
         $fixture->setName($this->title);
         $fixture->setWebsite($this->title);
+        $fixture->setUser($this->user);
 
         $this->repository->add($fixture, true);
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        $this->client->submitForm('Delete');
+        $this->client->submitForm('delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
         self::assertResponseRedirects($this->path);
@@ -103,6 +109,10 @@ class ManufacturerControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Manufacturer::class);
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->user = $userRepository->findOneByEmail('user@example.com');
+        $this->client->loginUser($this->user);
 
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
