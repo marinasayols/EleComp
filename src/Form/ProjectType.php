@@ -37,7 +37,9 @@ class ProjectType extends AbstractType
     public function onPreSubmit(FormEvent $event)
     {
         $data = $event->getData();
-        $data['projectItems'] = array_values($data['projectItems']);
+        if (array_key_exists('projectItems', $data)) {
+            $data['projectItems'] = array_values($data['projectItems']);
+        }
         $event->setData($data);
     }
 }

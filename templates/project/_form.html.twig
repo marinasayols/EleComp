@@ -28,7 +28,7 @@
     {% for projectItemForm in form.projectItems %}
         {{ formMacros.printProjectItemRow(projectItemForm) }}
     {% endfor %}
-    <a href="#" class="js-add-item">
+    <a href="#" class="js-add-item" id="add-item">
         <span class="bi bi-plus-circle"></span>
         Add Item
     </a>
