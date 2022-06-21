@@ -16,7 +16,7 @@ class ValueConverter
 
     public function getValue($s_value)
     {
-        $prefix = preg_replace('/[0-9]+/', '', $s_value);
+        $prefix = preg_replace('/\d+/', '', $s_value);
         if (strlen($prefix) > 1) {
             throw new \InvalidArgumentException('Value is not a number.');
         }
