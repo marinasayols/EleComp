@@ -17,6 +17,7 @@ class ComponentControllerTest extends WebTestCase
     private KernelBrowser $client;
     private ComponentRepository $repository;
     private string $path = '/component/';
+    private string $tr = 'table tbody tr';
     private User $user;
 
     public function testShow()
@@ -100,7 +101,7 @@ class ComponentControllerTest extends WebTestCase
         $link = $crawler->filter('#sort-value-up')->link();
         $crawler = $this->client->click($link);
         self::assertResponseStatusCodeSame(200);
-        $components = $crawler->filter('table tbody tr');
+        $components = $crawler->filter($this->tr);
         self::assertEquals('R1', $components->first()->filter('td')->first()->text());
 
     }
@@ -111,7 +112,7 @@ class ComponentControllerTest extends WebTestCase
         $link = $crawler->filter('#sort-value-down')->link();
         $crawler = $this->client->click($link);
         self::assertResponseStatusCodeSame(200);
-        $components = $crawler->filter('table tbody tr');
+        $components = $crawler->filter($this->tr);
         self::assertEquals('R2', $components->first()->filter('td')->first()->text());
 
     }
@@ -120,11 +121,11 @@ class ComponentControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', sprintf('%s%s', $this->path, 'resistor'));
         $form = $crawler->selectButton('Search')->form();
-        $form['field']='value';
-        $form['value']='1n';
+        $form['field'] = 'value';
+        $form['value'] = '1n';
         $crawler = $this->client->submit($form);
         self::assertResponseStatusCodeSame(200);
-        self::assertCount(1, $crawler->filter('table tbody tr'));
+        self::assertCount(1, $crawler->filter($this->tr));
     }
 
     public function testDelete()
