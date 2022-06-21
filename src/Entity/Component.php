@@ -197,11 +197,8 @@ abstract class Component
 
     public function removeProjectItem(ProjectItem $projectItem): self
     {
-        if ($this->projectItems->removeElement($projectItem)) {
-            // set the owning side to null (unless already changed)
-            if ($projectItem->getComponent() === $this) {
-                $projectItem->setComponent(null);
-            }
+        if ($this->projectItems->removeElement($projectItem) & $projectItem->getComponent() === $this) {
+            $projectItem->setComponent(null);
         }
 
         return $this;

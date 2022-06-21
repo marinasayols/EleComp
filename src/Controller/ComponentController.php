@@ -84,18 +84,7 @@ class ComponentController extends AbstractController
         $component = $types[$type];
         $component->setUser($this->getUser());
 
-        $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $componentRepository->add($component, true);
-            return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('component/new.html.twig', [
-            'component' => $component,
-            'form' => $form,
-        ]);
+        return $this->showForm($component, $request, $componentRepository);
     }
 
     #[Route('/show/{id}', name: 'app_component_show', methods: ['GET'])]
@@ -111,18 +100,7 @@ class ComponentController extends AbstractController
     #[Route('/{id}/edit', name: 'app_component_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Component $component, ComponentRepository $componentRepository): Response
     {
-        $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $componentRepository->add($component, true);
-            return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('component/edit.html.twig', [
-            'component' => $component,
-            'form' => $form,
-        ]);
+        return $this->showForm($component, $request, $componentRepository);
     }
 
     #[Route('/{id}', name: 'app_component_delete', methods: ['POST'])]
@@ -133,5 +111,21 @@ class ComponentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function showForm(mixed $component, Request $request, ComponentRepository $componentRepository): Response|\Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        $form = $this->createForm($component->accept(new CreateFormVisitor()), $component);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $componentRepository->add($component, true);
+            return $this->redirectToRoute('app_component_base', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('component/new.html.twig', [
+            'component' => $component,
+            'form' => $form,
+        ]);
     }
 }
