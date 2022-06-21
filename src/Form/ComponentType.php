@@ -33,11 +33,4 @@ class ComponentType extends AbstractType
                 'expanded' => true
             ]);
     }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Component::class,
-        ]);
-    }
 }

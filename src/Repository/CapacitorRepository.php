@@ -20,22 +20,4 @@ class CapacitorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Capacitor::class);
     }
-
-    public function add(Capacitor $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Capacitor $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 }

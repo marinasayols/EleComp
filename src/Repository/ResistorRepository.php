@@ -20,22 +20,4 @@ class ResistorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Resistor::class);
     }
-
-    public function add(Resistor $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Resistor $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 }

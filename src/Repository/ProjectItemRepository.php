@@ -20,22 +20,4 @@ class ProjectItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ProjectItem::class);
     }
-
-    public function add(ProjectItem $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(ProjectItem $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 }

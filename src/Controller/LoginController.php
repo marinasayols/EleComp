@@ -14,6 +14,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoginController extends AbstractController
 {
     #[Route('/', name: 'app_login')]
