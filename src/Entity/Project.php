@@ -92,13 +92,9 @@ class Project
 
     public function removeProjectItem(ProjectItem $projectItem): self
     {
-        if ($this->projectItems->removeElement($projectItem)) {
-            // set the owning side to null (unless already changed)
-            if ($projectItem->getProject() === $this) {
-                $projectItem->setProject(null);
-            }
+        if ($this->projectItems->removeElement($projectItem) & $projectItem->getProject() === $this) {
+            $projectItem->setProject(null);
         }
-
         return $this;
     }
 
