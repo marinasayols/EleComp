@@ -103,7 +103,6 @@ class ComponentControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
         $components = $crawler->filter($this->tr);
         self::assertEquals('R1', $components->first()->filter('td')->first()->text());
-
     }
 
     public function testSortDown()

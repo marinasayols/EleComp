@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Visitor;
+namespace App\Tests\Entity\Visitor;
 
 use App\Entity\Capacitor;
 use App\Entity\Inductor;

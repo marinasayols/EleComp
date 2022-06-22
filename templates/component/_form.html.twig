@@ -12,12 +12,14 @@
         {% for manufacturer in form.manufacturers %}
             {{ form_row(manufacturer) }}
         {% endfor %}
+        <a href="{{ path('app_manufacturer_new') }}">New</a>
     </div>
     <div class="col-sm">
         <h3>Providers</h3>
         {% for provider in form.providers %}
             {{ form_row(provider) }}
         {% endfor %}
+        <a href="{{ path('app_provider_new') }}">New</a>
     </div>
 </div>
 

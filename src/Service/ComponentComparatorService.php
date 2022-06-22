@@ -1,8 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Service;
 
-class ComponentComparator
+use App\Entity\Capacitor;
+use App\Entity\Component;
+use App\Entity\Inductor;
+use App\Entity\Resistor;
+use App\Entity\ValueConverter;
+
+class ComponentComparatorService
 {
     public static function compareName(Component $a, Component $b): int
     {

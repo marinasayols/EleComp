@@ -58,7 +58,7 @@ class ComponentController extends AbstractController
     {
         $field = $request->query->get('sort');
         usort($components,
-            ['App\Entity\ComponentComparator', 'compare' . $field]);
+            ['App\Service\ComponentComparatorService', 'compare' . $field]);
         if ($request->query->has('asc')) {
             $components = array_reverse($components, true);
         }
